@@ -30,12 +30,12 @@ Jan 15, 2026 & Zhangwenchi Li & Initial Draft\\
 \section{Problem Statement}
 
 \subsection{Problem}
-Eelbrain pipeline aims to automate M/EEG (Magnetoencephalography and Electroencephalography) data analysis. Once the pipeline configuration is set up, user can simply call pipeline methods to execute analysis steps and access results without writing additional code.
+M/EEG (Magnetoencephalography and Electroencephalography) data analysis is an important part of Neuroscience research. Eelbrain pipeline aims to automate \href{https://mne.tools/stable/documentation/cookbook.html}{the typical M/EEG workflow}. Once the pipeline configuration is set up, user can simply call pipeline methods to execute analysis steps and access results without writing additional code. For example, user defines how to process raw data, events and epochs in the configuration, then it only takes a method call to get the resulting evoked data.
 
 \subsection{Inputs and Outputs}
 \begin{itemize}
     \item Inputs: M/EEG dataset in \href{https://bids.neuroimaging.io/}{BIDS (Brain Imaging Data Structure)} format, Python class for pipeline configuration, pipeline methods calls to execute analysis steps.
-    \item Outputs: Processed M/EEG data or test results.
+    \item Outputs: Python objects representing processed M/EEG data or test results.
 \end{itemize}
 
 \subsection{Stakeholders}
@@ -46,14 +46,14 @@ A MacOS/Windows/Linux computer with Python $\ge$ 3.8 installed. \\
 
 \section{Goals}
 \begin{itemize}
-    \item Provide a user-friendly interface of pipeline configuration and execution for \href{https://mne.tools/stable/documentation/cookbook.html}{typical M/EEG workflow}.
+    \item Provide a user-friendly interface of pipeline configuration and execution for typical M/EEG workflow.
     \item Infer necessary information from the BIDS dataset to reduce user configuration effort.
     \item Provide a state mechanism for controlling which part of the dataset is currently used as input.
-    \item Cache intermediate results to reduce redundant computations.
+    \item Performance should be optimized, and is prioritized over disk usage.
 \end{itemize}
 
 \section{Stretch Goals}
-Listed and updated in \href{https://github.com/Eelbrain/Eelbrain/issues}{Github issues}.
+Provide support for \href{https://nifti.nimh.nih.gov/}{NIfTI MRI data format}. Details will be updated in \href{https://github.com/Eelbrain/Eelbrain/issues/144}{the related Github issue}.
 
 \section{Extras}
 This project is not a research project. Extras:
