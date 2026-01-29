@@ -439,7 +439,7 @@ easier to correctly understand the requirements:
 \subsubsection{Physical System Description} \label{sec_phySystDescrip}
 
 
-The physical system of ProgName, as shown in Figure~\ref{fig:physical_system}, includes the following elements
+The physical system of \progname{}, as shown in Figure~\ref{fig:physical_system}, includes the following elements
 
 
 \begin{itemize}
@@ -677,7 +677,7 @@ This section collects and defines all the file types needed to build the instanc
 This section transforms the problem defined in Section~\ref{Sec_pd} into  one which is expressed in mathematical terms. It uses concrete symbols defined  in Section~\ref{sec_datadef} to replace the abstract symbols in the models  identified in Sections~\ref{sec_theoretical} and~\ref{sec_gendef}.
 
 
-The goals GS~\ref{G_sourceLocalization} and GS~\ref{G_noiseRobustness} are solved by IM~\ref{IM_inverse}.
+The goal GS~\ref{G_sensorSpace} is solved by IM~\ref{IM_sensorAggregate}. The goals GS~\ref{G_sourceLocalization} and GS~\ref{G_noiseRobustness} are solved by IM~\ref{IM_inverse}.
 
 
 ~\newline
@@ -763,7 +763,7 @@ The goals GS~\ref{G_sourceLocalization} and GS~\ref{G_noiseRobustness} are solve
 \hline
     Input
     & Observed M/EEG sensor measurements $\mathbf{y}(t)$. \\
-    & Forward model operator $\mathbf{L}$. \\
+    & Inverse operator $\mathbf{W}$. \\
     & Noise and regularization assumptions. \\
 \hline
     Output
