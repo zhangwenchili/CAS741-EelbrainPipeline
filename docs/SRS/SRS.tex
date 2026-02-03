@@ -157,6 +157,7 @@
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
     Jan 28, 2026 & 1.0 & Initial draft \\
+    Feb 3, 2026 & Zhangwenchi Li & Refined based on presentation feedback \\
 \bottomrule
 \end{tabularx}
 
@@ -486,7 +487,7 @@ The physical system of \progname{}, as shown in Figure~\ref{fig:physical_system}
     \item[GS\refstepcounter{goalnum}\thegoalnum \label{G_sourceLocalization}:] Estimate source localization of neural activity from M/EEG recordings.
 
     \item[GS\refstepcounter{goalnum}\thegoalnum \label{G_noiseRobustness}:]
-    Account for measurement and environmental noise when processing M/EEG data, when specified by user.
+    % Account for measurement and environmental noise when processing M/EEG data, when specified by user.
 
 \end{itemize}
 
@@ -923,7 +924,7 @@ This section provides the functional requirements, the business tasks that the s
     \textbf{Maintainability} For any developer with relavant domain knowledge, the effort required to make any of the likely changes listed for \progname{} should be less than 0.5 of the original development time.
 
     \item[NFR\refstepcounter{nfrnum}\thenfrnum \label{NFR_Portability}:]
-    \textbf{Portability} \progname{} should run on any operating system (Windows, MacOS or Linux) with Python 3.8+ installed.
+    \textbf{Portability} \progname{} should run on Windows, MacOS or Linux.
 
 
 \end{itemize}
