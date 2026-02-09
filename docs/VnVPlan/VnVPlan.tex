@@ -11,6 +11,7 @@
     urlcolor=blue
 }
 \usepackage[round]{natbib}
+\usepackage{listings}
 
 \input{../Comments.text}
 \input{../Common.text}
@@ -66,10 +67,13 @@
 \section{Symbols, Abbreviations, and Acronyms}
 
 
-\citet{SRS}
+Identical to the same section in SRS document \citep{SRS}.
 
 
 \pagenumbering{arabic}
+
+
+\newpage
 
 
 This document presents the Verification and Validation (V\&V) plan for \progname{}. It explains how the software and related artifacts will be reviewed, tested, and evaluated to provide confidence that the implemented pipeline satisfies its documented requirements and is suitable for its intended use.
@@ -77,7 +81,6 @@ This document presents the Verification and Validation (V\&V) plan for \progname
 
 
 
-\newpage
 
 
 
@@ -144,7 +147,12 @@ These scope decisions reflect practical constraints in time and resources, and a
 \subsection{Relevant Documentation}
 
 
-\citet{SRS}
+\begin{itemize}
+    \item Software Requirements Specification \citep{SRS}
+    \item Module Guide (MG)
+    \item Module Interface Specification (MIS)
+\end{itemize}
+
 
 
 
@@ -169,7 +177,7 @@ This section outlines the overall Verification and Validation (V\&V) strategy fo
     \textbf{Member} & \textbf{Role} & \textbf{Responsibilities} \\
 \midrule
     Zhangwenchi Li & Developer & Produce the VnV Plan and refine based on feedback \\
-    Dr. Spencer Smith & Course Instructor & Provides feedback on V\&V plan \\
+    Dr. Spencer Smith & Course Instructor & Provides feedback on engineering principles \\
     Dr. Christian Brodbeck & Domain Expert & Provides domain-specific information on requirements and validation \\
     Xiao Shao & Reviewer & Provides feedback on V\&V plan \\
 \bottomrule
@@ -234,7 +242,7 @@ Unit testing planned in \autoref{unit_test_description} will be developed as the
 \subsection{Software Validation}
 
 
-Out of scope in this project.
+Out of scope for this project.
 
 
 
@@ -251,7 +259,7 @@ Out of scope in this project.
 \section{System Tests}
 
 
-This section defines the system-level tests derived from the Software Requirements Specification (SRS). It first presents test cases for functional requirements, followed by tests addressing nonfunctional requirements such as usability, maintainability, and portability. Finally, a traceability matrix is provided to explicitly link requirements to their corresponding test cases.
+This section defines the system-level tests derived from the Software Requirements Specification (SRS). It first presents test cases for functional requirements, followed by tests addressing nonfunctional requirements such as usability, maintainability, and portability. Finally, a traceability matrix is provided to explicitly link requirements to their corresponding test cases. All system tests will use the \href{https://mne.tools/stable/documentation/datasets.html#sample}{MNE sample dataset} as input data.
 
 
 
@@ -259,7 +267,7 @@ This section defines the system-level tests derived from the Software Requiremen
 \subsection{Tests for Functional Requirements}
 
 
-The following system-level test cases are derived from the functional requirements (R1--R4) identified in the SRS. For each functional requirement, at least one corresponding test case (FR-01--FR-04) is defined, specifying initial state, inputs, expected outputs, and pass/fail criteria. This ensures that the implemented Eelbrain pipeline behaviour can be systematically checked against the required functionality, and that there is clear traceability from the SRS requirements to the verification activities.
+The following system-level test cases are derived from the functional requirements (R1--R5) identified in the SRS. For each functional requirement, at least one corresponding test case (FR-01--FR-04) is defined, specifying initial state, inputs, expected outputs, and pass/fail criteria. This ensures that the implemented Eelbrain pipeline behaviour can be systematically checked against the required functionality, and that there is clear traceability from the SRS requirements to the verification activities.
 
 		
 \paragraph{BIDS Path Templating}
@@ -273,11 +281,11 @@ The following system-level test cases are derived from the functional requiremen
     Initial State: Eelbrain pipeline is initialized. \\
     Input:
         \begin{itemize}
-            \item A valid BIDS dataset containing multiple file paths (e.g., raw data files, event files, MRI files if applicable);
+            \item MNE sample dataset containing multiple file paths;
             \item Methods calls on pipeline to access file paths and load files.
         \end{itemize}
     Output: Eelbrain pipeline successfully loads all correct file paths or handles incorrect ones with informative errors. \\
-    Test Case Derivation: R1 \\
+    Test Case Derivation: From MNE sample data. \\
     How test will be performed: Call pipeline methods to get paths or load files. Assertions will check that
         \begin{itemize}
             \item All file paths are correctly constructed from file templates in the valid case;
@@ -287,6 +295,21 @@ The following system-level test cases are derived from the functional requiremen
 
 
 \end{enumerate}
+
+
+\begin{tabularx}{\textwidth}{p{2cm}p{2cm}p{4.5cm}X}
+\toprule 
+    \textbf{Test Case ID} & \textbf{File Type} & \textbf{Path Invoked} & \textbf{Expected Behaviour} \\
+\midrule
+    FR-01-1 & Raw MEG data & sub-01/ses-01/meg/ sub-01\_ses-01\_task-auditory\_meg.fif & Pipeline method returns a loaded MNE Raw object with correct subject, session and task information. \\
+
+    FR-01-2 & Raw MEG data & sub-01/meg/sub-01\_task-auditory\_meg.fif & Pipeline raises FileNotFoundError with full expected path. \\
+
+    FR-01-3 & Channels file & sub-01/ses-01/meg/sub-01\_ses-01\_task-auditory\_channels.tsv & Pipeline method can read channels file correctly, returning an empty bad channels list. \\
+
+    FR-01-4 & FreeSurfer MRI & {root}/derivatives/ freesurfer/sub-01/bem/outer\_skull.surf & Pipeline method returns the bem model. \\
+\bottomrule
+\end{tabularx}
 
 
 \paragraph{Automatic parameter inference from dataset}
@@ -300,15 +323,28 @@ The following system-level test cases are derived from the functional requiremen
     Initial State: Eelbrain pipeline is initialized. \\
     Input: 
         \begin{itemize}
-            \item A valid BIDS dataset;
+            \item A fake dataset with multiple subjects, sessions and tasks created by duplicating MNE sample dataset;
             \item A minimal pipeline configuration file with BIDS entities omitted (e.g., subject/session/task).
         \end{itemize}
     Output: BIDS entities are properly inferred from the dataset. \\
-    Test Case Derivation: R2 \\
+    Test Case Derivation: From MNE sample data. \\
     How test will be performed: Access pipeline attributes related to BIDS entities. Assertions will check that the set of correct BIDS entities and inferred values are identical.
 
 
 \end{enumerate}
+
+
+\begin{tabularx}{\textwidth}{p{2cm}p{2cm}p{4.5cm}X}
+\toprule 
+    \textbf{Test Case ID} & \textbf{BIDS Entity} & \textbf{Example Dataset Structure} & \textbf{Expected Inferred Value / Behaviour} \\
+\midrule
+    FR-02-1 & Subject & Dataset contains sub-01, sub-02, sub-03 directories & The pipeline subjects list is \texttt{["01", "02", "03"]} \\
+
+    FR-02-2 & Session & Dataset contains ses-01, ses-02 directories under each subject directory & The pipeline sessions list is \texttt{["01", "02"]} \\
+
+    FR-02-3 & Task & Dataset contains task-sample1, task-sample2 directories under each session directory & The pipeline tasks list is \texttt{["sample1", "sample2"]}. \\
+\bottomrule
+\end{tabularx}
 
 
 \paragraph{Support for sensor-space analysis}
@@ -322,21 +358,35 @@ The following system-level test cases are derived from the functional requiremen
     Initial State: Eelbrain pipeline initialized. \\
     Input:
         \begin{itemize}
-            \item A valid BIDS dataset;
+            \item sub-01\_task-auditory\_meg.fif in MNE sample dataset;
             \item A pipeline configuration includes sensor-space processing parameters (preprocessing steps, epoch definitions, etc.);
             \item Methods calls on pipeline to execute sensor-space analysis steps and load processed data.
         \end{itemize}
     Output: The pipeline successfully processes sensor-space data with correct dimensions. \\
-    Test Case Derivation: R3 and R4 \\
+    Test Case Derivation: From MNE sample data. \\
     How test will be performed: Assertions will check that
     \begin{itemize}
         \item The returned sensor-space data are in correct MNE-Python data structures (e.g., Epochs objects);
-        \item The dimensions of processed sensor-space data match expected values (the number of channels, time points, or events/epochs).
+        \item The dimensions of processed sensor-space data match expected values (the number of channels, time points, or epochs).
     \end{itemize}
     
 
 
 \end{enumerate}
+
+
+\begin{tabularx}{\textwidth}{p{2.5cm}p{5cm}X}
+\toprule 
+    \textbf{Test Case ID} & \textbf{Processing Stage} & \textbf{Anticipated Result} \\
+\midrule
+
+    FR-03-1 & Maxwell filtering & Returned raw object maintains 376 channels and 600.614 Hz sampling rate. No NaN or infinite values in data array. \\
+
+    FR-03-2 & Epochs extraction & Epochs object with shape (280--300 epochs, 376 channels, 421 time points). Epoch rejection rate less than 15\%. \\
+
+    FR-03-3 & Evoked response computation & Evoked object averaged across trials with shape (376 channels, 421 time points). Peak amplitude 250--350 fT for auditory sensors (channels MEG14xx). \\
+\bottomrule
+\end{tabularx}
 
 
 \paragraph{Support for source-space analysis}
@@ -354,11 +404,11 @@ The following system-level test cases are derived from the functional requiremen
             \item Methods calls on pipeline to execute source-space analysis steps and load STC (source time course) data.
         \end{itemize}
     Output: The pipeline successfully computes source-space data with correct properties. \\
-    Test Case Derivation: R3 and R4 \\
+    Test Case Derivation: From MNE sample data. \\
     How test will be performed: Run the source localization workflow. Assertions will check that 
     \begin{itemize}
-        \item The returned source-space data are in correct MNE-Python data structures (e.g., SourceEstimate objects);
-        \item The dimensions of processed source-space data show some properties of correctness (e.g., has vertices/time points; not all zeros; metadata present).
+        \item The returned source-space data is in an MNE-Python SourceEstimate object;
+        \item The returned source-space data has a shape of 7498 vertices and 421 time points; its peak amplitude in right auditory cortex is 15--25 dSPM units.
     \end{itemize}
     
 
@@ -387,8 +437,8 @@ The following system-level test cases are derived from the functional requiremen
 \item{NFR-01\\}
     Type: Manual \\
     Initial State: An alpha version of Eelbrain pipeline is available; a user group consisting of neuroscience researchers is selected. \\
-    Input/Condition: Participants complete a short task set (e.g., load raw files, run a sensor-space step, access results) and then complete a usability survey questionnaire. \\
-    Output/Result: At least 80\% of respondents rate the software as easy to use (as defined by the survey threshold). \\
+    Input/Condition: Participants complete a short analysis task (load raw files, compute evoked response and access results) and then complete a usability survey questionnaire. \\
+    Output/Result: At least 80\% of respondents rate the software as easy to use. \\
     How test will be performed: Collect questionnaire results; compute the percentage of "easy to use" responses and verify if it is larger than 80\%.
 
 
@@ -408,9 +458,9 @@ The following system-level test cases are derived from the functional requiremen
 
 \item{NFR-02\\}
     Type: Dynamic, Manual \\
-    Initial State: Baseline development time is recorded for the original implementation; codebase is under version control with issues/tasks. \\
-    Input/Condition: Select one likely change (e.g., adding support for more BIDS entities or more preprocessing operations) and implement it by a developer with relevant domain knowledge. \\
-    Output/Result: The measured effort (person-hours) to implement the chosen likely change is less than 0.5 of the original development time. \\
+    Initial State: Baseline development time is recorded for the original implementation; codebase is under version control. \\
+    Input/Condition: Select one likely change (e.g., adding support for one more BIDS entity or one more preprocessing operation) and implement it by a developer with relevant domain knowledge. \\
+    Output/Result: The measured effort to implement the chosen likely change is less than 0.5 of the original development time. \\
     How test will be performed: Track engineering time using commits; compare total effort against the recorded baseline and confirm it satisfies the threshold.
 
 
@@ -429,9 +479,9 @@ The following system-level test cases are derived from the functional requiremen
 \item{NFR-03\\}
     Type: Manual \\		
     Initial State: Clean Windows, macOS, and Linux environments prepared. \\
-    Input/Condition: Install Eelbrain pipeline and run a minimal workflow on each OS using the same small BIDS test dataset. \\
+    Input/Condition: Install Eelbrain pipeline and run developed pytest scripts on each OS using the MNE sample dataset. \\
     Output/Result: The pipeline installs and runs successfully on Windows, macOS, and Linux with consistent results for the workflow. \\
-    How test will be performed: Manually set up and execute the testing.
+    How test will be performed: Create different workflows for each OS on Github Actions.
 
 
 \end{enumerate}
@@ -451,8 +501,8 @@ The following system-level test cases are derived from the functional requiremen
 \midrule
     R1 & FR-01 \\
     R2 & FR-02 \\
-    R3 & FR-03, FR-04 \\
-    R4 & FR-03, FR-04 \\
+    R3 & FR-03, FR-05 \\
+    R4 & FR-04, FR-05 \\
     NFR1 & NFR-01 \\
     NFR2 & NFR-02 \\
     NFR3 & NFR-03 \\
