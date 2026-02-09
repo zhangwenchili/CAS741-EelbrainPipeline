@@ -72,7 +72,7 @@
 \pagenumbering{arabic}
 
 
-This document ...
+This document presents the Verification and Validation (V\&V) plan for \progname{}. It explains how the software and related artifacts will be reviewed, tested, and evaluated to provide confidence that the implemented pipeline satisfies its documented requirements and is suitable for its intended use.
 
 
 
@@ -96,7 +96,7 @@ This document ...
 \subsection{Summary}
 
 
-what software, general functions
+\progname{} aims to automate \href{https://mne.tools/stable/documentation/cookbook.html}{the typical M/EEG workflow}. Once the pipeline configuration is set up, user can simply call pipeline methods to execute analysis steps and access results without writing additional code. For example, user defines how to process raw data, events and epochs in the configuration, then it only takes a method call to get the resulting evoked data.
 
 
 
@@ -105,7 +105,27 @@ what software, general functions
 \subsection{Objectives}
 
 
-build confidence in the software correctness, demonstrate adequate usability
+The primary objective of this Verification and Validation (V\&V) plan is to build confidence in the correctness, reliability, and maintainability of the Eelbrain pipeline. In particular, this plan prioritizes:
+
+
+\begin{itemize}
+    \item \textbf{Functional correctness:} Ensuring that the implemented pipeline behaviour conforms to the functional requirements specified in the SRS.
+    \item \textbf{Reliability:} Verifying that analyses produce consistent and structurally valid outputs for valid BIDS datasets.
+    \item \textbf{Maintainability:} Ensuring that the implementation can accommodate likely future changes with reasonable effort.
+\end{itemize}
+
+
+\noindent The following objectives are considered out of scope for this V\&V plan.
+
+
+\begin{itemize}
+    \item \textbf{Verification of external libraries (e.g., MNE-Python):} These tools are assumed to have been independently verified by their respective development teams.
+    \item \textbf{Formal mathematical verification of analysis algorithms:} The project focuses on workflow integration rather than re-validating established neuroimaging algorithms.
+    \item \textbf{Extensive user studies:} Due to limited resources and time constraints, only limited usability feedback will be collected.
+\end{itemize}
+
+
+These scope decisions reflect practical constraints in time and resources, and allow the V\&V effort to focus on aspects of the system that are directly implemented and controlled within this project.
 
 
 
@@ -114,6 +134,10 @@ build confidence in the software correctness, demonstrate adequate usability
 \subsection{Extras}
 
 
+\begin{itemize}
+    \item User manual: Provides installation steps, and small example workflows to help new users set up the environment, run the Eelbrain pipeline on sample BIDS data.
+    \item Code walkthrough: Describes the main modules, data flow, and key methods in the pipeline to find potential issues.
+\end{itemize}
 
 
 % 2.4 Relevant Documentation
@@ -133,13 +157,23 @@ build confidence in the software correctness, demonstrate adequate usability
 \section{Plan}
 
 
+This section outlines the overall Verification and Validation (V\&V) strategy for the project. It first defines the V\&V team and their responsibilities, followed by the verification approach for the SRS, design documents, and the V\&V plan itself. The implementation verification strategy and automated testing tools are then described.
 
 
 % 3.1 Verification and Validation Team
 \subsection{Verification and Validation Team}
 
 
-people, roles
+\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
+\toprule 
+    \textbf{Member} & \textbf{Role} & \textbf{Responsibilities} \\
+\midrule
+    Zhangwenchi Li & Developer & Produce the VnV Plan and refine based on feedback \\
+    Dr. Spencer Smith & Course Instructor & Provides feedback on V\&V plan \\
+    Dr. Christian Brodbeck & Domain Expert & Provides domain-specific information on requirements and validation \\
+    Xiao Shao & Reviewer & Provides feedback on V\&V plan \\
+\bottomrule
+\end{tabularx}
 
 
 
@@ -148,13 +182,18 @@ people, roles
 \subsection{SRS Verification}
 
 
+\begin{itemize}
+    \item \textbf{Peer Review.} A classmate will review the SRS in detail using the course SRS checklist and make comments by creating issues in the project repository. The SRS will be revised to address each issue, and issues will only be closed after confirmation by the original reviewer.
+    \item \textbf{Supervisor Review.} The SRS will be walked through in a scheduled meeting to familiarize the supervisor with the document structure and the purpose of each section. A checklist will be created to identify most important sections to review (e.g., goal statements, instance models, requirements). Feedback will be given by the supervisor after reading the SRS.
+\end{itemize}
+
 
 
 % 3.3 Design Verification
 \subsection{Design Verification}
 
 
-review by classmates
+A classmate will review the MG and MIS document in detail using corresponding checklists in course repo and make comments by creating issues in the project repository.
 
 
 
@@ -163,7 +202,7 @@ review by classmates
 \subsection{Verification and Validation Plan Verification}
 
 
-review by classmates
+A classmate will review the VnV Plan in detail using checklist in course repo and make comments by creating issues in the project repository.
 
 
 
@@ -172,7 +211,7 @@ review by classmates
 \subsection{Implementation Verification}
 
 
-unit testing plan
+Unit testing planned in \autoref{unit_test_description} will be developed as the major method for implementation verification. A code walkthrough will be performed to inspect the most critical modules.
 
 
 
@@ -181,21 +220,25 @@ unit testing plan
 \subsection{Automated Testing and Verification Tools}
 
 
-Github Actions, pytest, flake8, Codecov
+\begin{itemize}
+    \item \textbf{GitHub Actions}: Automates CI/CD workflows to run tests, checks, and deployments on every push or pull request.
+    \item \textbf{pytest}: A Python testing framework used to write and execute unit and integration tests efficiently. The written tests will be integrated and executed in GitHub Actions.
+    \item \textbf{flake8}: A linting tool that checks Python code for style issues, syntax errors, and adherence to coding standards.
+    \item \textbf{Codecov}: A code coverage reporting tool that measures how much of the codebase is tested and produces coverage reports.
+\end{itemize}
 
 
 
 
-% 2.7 Software Validation
+% 3.7 Software Validation
 \subsection{Software Validation}
 
 
-No plan.
+Out of scope in this project.
 
 
 
 
-\newpage
 
 
 
@@ -208,25 +251,116 @@ No plan.
 \section{System Tests}
 
 
+This section defines the system-level tests derived from the Software Requirements Specification (SRS). It first presents test cases for functional requirements, followed by tests addressing nonfunctional requirements such as usability, maintainability, and portability. Finally, a traceability matrix is provided to explicitly link requirements to their corresponding test cases.
+
 
 
 % 4.1 Tests for Functional Requirements
 \subsection{Tests for Functional Requirements}
 
+
+The following system-level test cases are derived from the functional requirements (R1--R4) identified in the SRS. For each functional requirement, at least one corresponding test case (FR-01--FR-04) is defined, specifying initial state, inputs, expected outputs, and pass/fail criteria. This ensures that the implemented Eelbrain pipeline behaviour can be systematically checked against the required functionality, and that there is clear traceability from the SRS requirements to the verification activities.
+
 		
-\paragraph{Title for Test}
+\paragraph{BIDS Path Templating}
 
 
 \begin{enumerate}
 
 
-\item{test-id1\\}
+\item{FR-01\\}
     Control: Automatic \\
-    Initial State: \\
-    Input: \\
-    Output: \\
-    Test Case Derivation: \\
-    How test will be performed: 
+    Initial State: Eelbrain pipeline is initialized. \\
+    Input:
+        \begin{itemize}
+            \item A valid BIDS dataset containing multiple file paths (e.g., raw data files, event files, MRI files if applicable);
+            \item Methods calls on pipeline to access file paths and load files.
+        \end{itemize}
+    Output: Eelbrain pipeline successfully loads all correct file paths or handles incorrect ones with informative errors. \\
+    Test Case Derivation: R1 \\
+    How test will be performed: Call pipeline methods to get paths or load files. Assertions will check that
+        \begin{itemize}
+            \item All file paths are correctly constructed from file templates in the valid case;
+            \item All files are successfully discovered in the valid case;
+            \item An appropriate exception or error message is raised in the invalid case, explicitly identifying missing files.
+        \end{itemize}
+
+
+\end{enumerate}
+
+
+\paragraph{Automatic parameter inference from dataset}
+
+
+\begin{enumerate}
+
+
+\item{FR-02\\}
+    Control: Automatic \\
+    Initial State: Eelbrain pipeline is initialized. \\
+    Input: 
+        \begin{itemize}
+            \item A valid BIDS dataset;
+            \item A minimal pipeline configuration file with BIDS entities omitted (e.g., subject/session/task).
+        \end{itemize}
+    Output: BIDS entities are properly inferred from the dataset. \\
+    Test Case Derivation: R2 \\
+    How test will be performed: Access pipeline attributes related to BIDS entities. Assertions will check that the set of correct BIDS entities and inferred values are identical.
+
+
+\end{enumerate}
+
+
+\paragraph{Support for sensor-space analysis}
+
+
+\begin{enumerate}
+
+
+\item{FR-03\\}
+    Control: Automatic \\
+    Initial State: Eelbrain pipeline initialized. \\
+    Input:
+        \begin{itemize}
+            \item A valid BIDS dataset;
+            \item A pipeline configuration includes sensor-space processing parameters (preprocessing steps, epoch definitions, etc.);
+            \item Methods calls on pipeline to execute sensor-space analysis steps and load processed data.
+        \end{itemize}
+    Output: The pipeline successfully processes sensor-space data with correct dimensions. \\
+    Test Case Derivation: R3 and R4 \\
+    How test will be performed: Assertions will check that
+    \begin{itemize}
+        \item The returned sensor-space data are in correct MNE-Python data structures (e.g., Epochs objects);
+        \item The dimensions of processed sensor-space data match expected values (the number of channels, time points, or events/epochs).
+    \end{itemize}
+    
+
+
+\end{enumerate}
+
+
+\paragraph{Support for source-space analysis}
+
+
+\begin{enumerate}
+
+
+\item{FR-04\\}
+    Control: Automatic \\
+    Initial State: Eelbrain pipeline initialized and sensor-space processing completed. \\
+    Input:
+        \begin{itemize}
+            \item A valid BIDS dataset with Freesurfer MRI and trans files;
+            \item Methods calls on pipeline to execute source-space analysis steps and load STC (source time course) data.
+        \end{itemize}
+    Output: The pipeline successfully computes source-space data with correct properties. \\
+    Test Case Derivation: R3 and R4 \\
+    How test will be performed: Run the source localization workflow. Assertions will check that 
+    \begin{itemize}
+        \item The returned source-space data are in correct MNE-Python data structures (e.g., SourceEstimate objects);
+        \item The dimensions of processed source-space data show some properties of correctness (e.g., has vertices/time points; not all zeros; metadata present).
+    \end{itemize}
+    
 
 
 \end{enumerate}
@@ -238,26 +372,66 @@ No plan.
 \subsection{Tests for Nonfunctional Requirements}
 
 
-% describe
 
 
 
+\subsubsection{Usability}
 
-\subsubsection{Area of Testing1}
 
-
-\paragraph{Title for Test}
+\paragraph{Usability survey acceptance test}
 
 
 \begin{enumerate}
 
 
-\item{test-id1\\}
-    Type: Functional, Dynamic, Manual, Static etc. \\		
-    Initial State: \\		
-    Input/Condition: \\	
-    Output/Result: \\	
-    How test will be performed:
+\item{NFR-01\\}
+    Type: Manual \\
+    Initial State: An alpha version of Eelbrain pipeline is available; a user group consisting of neuroscience researchers is selected. \\
+    Input/Condition: Participants complete a short task set (e.g., load raw files, run a sensor-space step, access results) and then complete a usability survey questionnaire. \\
+    Output/Result: At least 80\% of respondents rate the software as easy to use (as defined by the survey threshold). \\
+    How test will be performed: Collect questionnaire results; compute the percentage of "easy to use" responses and verify if it is larger than 80\%.
+
+
+\end{enumerate}
+
+
+
+
+\subsubsection{Maintainability}
+
+
+\paragraph{Likely-change effort threshold test}
+
+
+\begin{enumerate}
+
+
+\item{NFR-02\\}
+    Type: Dynamic, Manual \\
+    Initial State: Baseline development time is recorded for the original implementation; codebase is under version control with issues/tasks. \\
+    Input/Condition: Select one likely change (e.g., adding support for more BIDS entities or more preprocessing operations) and implement it by a developer with relevant domain knowledge. \\
+    Output/Result: The measured effort (person-hours) to implement the chosen likely change is less than 0.5 of the original development time. \\
+    How test will be performed: Track engineering time using commits; compare total effort against the recorded baseline and confirm it satisfies the threshold.
+
+
+\end{enumerate}
+
+
+\subsubsection{Portability}
+
+
+\paragraph{Cross-platform installation and execution test}
+
+
+\begin{enumerate}
+
+
+\item{NFR-03\\}
+    Type: Manual \\		
+    Initial State: Clean Windows, macOS, and Linux environments prepared. \\
+    Input/Condition: Install Eelbrain pipeline and run a minimal workflow on each OS using the same small BIDS test dataset. \\
+    Output/Result: The pipeline installs and runs successfully on Windows, macOS, and Linux with consistent results for the workflow. \\
+    How test will be performed: Manually set up and execute the testing.
 
 
 \end{enumerate}
@@ -267,6 +441,24 @@ No plan.
 
 % 4.3 Traceability Between Test Cases and Requirements
 \subsection{Traceability Between Test Cases and Requirements}
+
+
+\begin{table}[h]
+\centering
+\begin{tabularx}{0.6\textwidth}{p{3cm}X}
+\toprule
+    \textbf{Requirements} & \textbf{Test Cases} \\
+\midrule
+    R1 & FR-01 \\
+    R2 & FR-02 \\
+    R3 & FR-03, FR-04 \\
+    R4 & FR-03, FR-04 \\
+    NFR1 & NFR-01 \\
+    NFR2 & NFR-02 \\
+    NFR3 & NFR-03 \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
 
 
@@ -281,7 +473,7 @@ No plan.
 
 
 %%%%% 5 Unit Test Description %%%%%
-\section{Unit Test Description}
+\section{Unit Test Description} \label{unit_test_description}
 
 
 
