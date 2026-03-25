@@ -19,6 +19,7 @@
 \usepackage[section]{placeins}
 \usepackage{caption}
 \usepackage{fullpage}
+\usepackage{listings}
 
 \hypersetup{
 bookmarks=true,     % show bookmarks bar?
@@ -48,54 +49,86 @@ urlcolor=cyan          % color of external links
 
 \pagenumbering{roman}
 
+
+
+
+
+
+
+
+% 1 Revision History
 \section{Revision History}
+
 
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+    Mar 9, 2026 & 1.0 & Initial draft\\
+    % Date 2 & 1.1 & Notes\\
 \bottomrule
 \end{tabularx}
 
+
 ~\newpage
 
+
+
+
+
+
+
+
+% 2 Symbols, Abbreviations and Acronyms
 \section{Symbols, Abbreviations and Acronyms}
 
-See SRS Documentation at \wss{give url}
 
-\wss{Also add any additional symbols, abbreviations or acronyms}
+See \href{https://zhangwenchili.github.io/CAS741-EelbrainPipeline/SRS/SRS.pdf}{SRS Documentation}.
+
 
 \newpage
+
 
 \tableofcontents
 
+
 \newpage
+
 
 \pagenumbering{arabic}
 
+
+
+
+
+
+
+
+% 3 Introduction
 \section{Introduction}
 
-The following document details the Module Interface Specifications for
-\wss{Fill in your project name and description}
+
+The following document details the Module Interface Specifications for \progname{}.
+
 
 Complementary documents include the System Requirement Specifications
-and Module Guide.  The full documentation and implementation can be
-found at \url{...}.  \wss{provide the url for your repo}
+and Module Guide.  The full documentation and implementation can be found at \url{https://github.com/zhangwenchili/CAS741-EelbrainPipeline}.
 
+
+
+
+
+
+
+
+% 4 Notation
 \section{Notation}
 
-\wss{You should describe your notation.  You can use what is below as
-  a starting point.}
 
-The structure of the MIS for modules comes from \citet{HoffmanAndStrooper1995},
-with the addition that template modules have been adapted from
-\cite{GhezziEtAl2003}.  The mathematical notation comes from Chapter 3 of
-\citet{HoffmanAndStrooper1995}.  For instance, the symbol := is used for a
-multiple assignment statement and conditional rules follow the form $(c_1
-\Rightarrow r_1 | c_2 \Rightarrow r_2 | ... | c_n \Rightarrow r_n )$.
+The structure of the MIS for modules comes from \citet{HoffmanAndStrooper1995}, with the addition that template modules have been adapted from \cite{GhezziEtAl2003}.  The mathematical notation comes from Chapter 3 of \citet{HoffmanAndStrooper1995}.  For instance, the symbol := is used for a multiple assignment statement and conditional rules follow the form $(c_1 \Rightarrow r_1 | c_2 \Rightarrow r_2 | ... | c_n \Rightarrow r_n )$.
 
-The following table summarizes the primitive data types used by \progname. 
+
+The following table summarizes the primitive data types used by \progname{}. 
+
 
 \begin{center}
 \renewcommand{\arraystretch}{1.2}
@@ -104,48 +137,54 @@ The following table summarizes the primitive data types used by \progname.
 \toprule 
 \textbf{Data Type} & \textbf{Notation} & \textbf{Description}\\ 
 \midrule
-character & char & a single symbol or digit\\
-integer & $\mathbb{Z}$ & a number without a fractional component in (-$\infty$, $\infty$) \\
-natural number & $\mathbb{N}$ & a number without a fractional component in [1, $\infty$) \\
-real & $\mathbb{R}$ & any number in (-$\infty$, $\infty$)\\
+    character & char & a single symbol or digit\\
+    integer & $\mathbb{Z}$ & a number without a fractional component in (-$\infty$, $\infty$) \\
+    natural number & $\mathbb{N}$ & a number without a fractional component in [1, $\infty$) \\
+    real & $\mathbb{R}$ & any number in (-$\infty$, $\infty$)\\
 \bottomrule
 \end{tabular} 
 \end{center}
 
-\noindent
-The specification of \progname \ uses some derived data types: sequences, strings, and
-tuples. Sequences are lists filled with elements of the same data type. Strings
-are sequences of characters. Tuples contain a list of values, potentially of
-different types. In addition, \progname \ uses functions, which
-are defined by the data types of their inputs and outputs. Local functions are
-described by giving their type signature followed by their specification.
 
+\noindent The specification of \progname{} \ uses some derived data types: sequences, strings, and tuples. Sequences are lists filled with elements of the same data type. Strings are sequences of characters. Tuples contain a list of values, potentially of different types. In addition, \progname{} uses functions, which are defined by the data types of their inputs and outputs. Local functions are described by giving their type signature followed by their specification.
+
+
+
+
+
+
+
+
+% 5 Module Decomposition
 \section{Module Decomposition}
+
 
 The following table is taken directly from the Module Guide document for this project.
 
+
 \begin{table}[h!]
 \centering
-\begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
+\begin{tabular}{p{0.3\textwidth} p{0.45\textwidth} p{0.15\textwidth}}
 \toprule
-\textbf{Level 1} & \textbf{Level 2}\\
+\textbf{Level 1} & \textbf{Level 2} & \textbf{Module ID}\\
 \midrule
 
-{Hardware-Hiding} & ~ \\
+{Hardware-Hiding}
+    & Python \\
 \midrule
 
-\multirow{7}{0.3\textwidth}{Behaviour-Hiding} & Input Parameters\\
-& Output Format\\
-& Output Verification\\
-& Temperature ODEs\\
-& Energy Equations\\ 
-& Control Module\\
-& Specification Parameters Module\\
+\multirow{7}{0.3\textwidth}{Behaviour-Hiding}
+    & TreeModel Module & M2 \\
+    & FileTree Module & M3 \\
+    & Preprocessing Module & M4 \\
+    & Epoch Module & M5 \\
+    & Covariance Module & M6 \\
+    & MNE-Python & M7 \\
 \midrule
 
-\multirow{3}{0.3\textwidth}{Software Decision} & {Sequence Data Structure}\\
-& ODE Solver\\
-& Plotting\\
+\multirow{1}{0.3\textwidth}{Software Decision}
+    & Pipeline Module & M1 \\
+
 \bottomrule
 
 \end{tabular}
@@ -156,123 +195,408 @@ The following table is taken directly from the Module Guide document for this pr
 \newpage
 ~\newpage
 
-\section{MIS of \wss{Module Name}} \label{Module} \wss{Use labels for
-  cross-referencing}
 
-\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
 
-\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+
+
+
+
+
+% 6 MIS of Module Name
+\section{MIS of Pipeline Module}
+
+
+
 
 \subsection{Module}
 
-\wss{Short name for the module}
+
+Pipeline Module
+
+
+
 
 \subsection{Uses}
 
 
+FileTree Module, Preprocessing Module, Epoch Module, Covariance Module, MNE-Python
+
+
+
+
 \subsection{Syntax}
+
 
 \subsubsection{Exported Constants}
 
+
+
+
 \subsubsection{Exported Access Programs}
 
+
 \begin{center}
-\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{3cm} p{4cm} p{4cm} p{2cm}}
 \hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+    \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-\wss{accessProg} & - & - & - \\
+    \lstinline|load_raw| & - & - & - \\
+    \lstinline|load_events| & - & - & - \\
+    \lstinline|load_epochs| & - & - & - \\
+    \lstinline|load_evoked| & - & - & - \\
+    \lstinline|load_evoked_stc| & - & - & - \\
 \hline
 \end{tabular}
 \end{center}
 
+
+
+
 \subsection{Semantics}
+
 
 \subsubsection{State Variables}
 
-\wss{Not all modules will have state variables.  State variables give the module
-  a memory.}
+
+subject, session, task, run, raw, epoch, cov
+
+
+
 
 \subsubsection{Environment Variables}
 
-\wss{This section is not necessary for all modules.  Its purpose is to capture
-  when the module has external interaction with the environment, such as for a
-  device driver, screen interface, keyboard, file, etc.}
+
+Eelbrain cache and MRI files in dataset
+
+
+
 
 \subsubsection{Assumptions}
 
-\wss{Try to minimize assumptions and anticipate programmer errors via
-  exceptions, but for practical purposes assumptions are sometimes appropriate.}
+
+None
+
+
+
 
 \subsubsection{Access Routine Semantics}
 
-\noindent \wss{accessProg}():
+
+\noindent \lstinline|load_raw()|:
 \begin{itemize}
-\item transition: \wss{if appropriate} 
-\item output: \wss{if appropriate} 
-\item exception: \wss{if appropriate} 
+    \item output:
+    \item exception:
 \end{itemize}
 
-\wss{A module without environment variables or state variables is unlikely to
-  have a state transition.  In this case a state transition can only occur if
-  the module is changing the state of another module.}
 
-\wss{Modules rarely have both a transition and an output.  In most cases you
-  will have one or the other.}
+\noindent \lstinline|load_events()|:
+\begin{itemize}
+    \item output:
+    \item exception:
+\end{itemize}
+
+
+\noindent \lstinline|load_epochs()|:
+\begin{itemize}
+    \item output:
+    \item exception:
+\end{itemize}
+
+
+\noindent \lstinline|load_evoked()|:
+\begin{itemize}
+    \item output:
+    \item exception:
+\end{itemize}
+
+
+\noindent \lstinline|load_evoked_stc()|:
+\begin{itemize}
+    \item output:
+    \item exception:
+\end{itemize}
+
+
+
 
 \subsubsection{Local Functions}
 
-\wss{As appropriate} \wss{These functions are for the purpose of specification.
-  They are not necessarily something that is going to be implemented
-  explicitly.  Even if they are implemented, they are not exported; they only
-  have local scope.}
+
+None
+
 
 \newpage
+
+
+
+
+
+
+
+
+% 7 MIS of TreeModel Name
+\section{MIS of TreeModel Module (M2)}
+
+
+
+
+\subsection{Module}
+
+
+TreeModel Module
+
+
+
+
+\subsection{Uses}
+
+
+None
+
+
+
+
+\subsection{Syntax}
+
+
+\subsubsection{Exported Constants}
+
+
+None
+
+
+
+
+\subsubsection{Exported Access Programs}
+
+
+\begin{center}
+\begin{tabular}{p{3cm} p{4cm} p{4cm} p{2cm}}
+\hline
+    \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+    \lstinline|_register_field()| & - & - & - \\
+    \lstinline|get()| & - & - & - \\
+    \lstinline|set()| & - & - & - \\
+    \lstinline|iter()| & - & - & - \\
+    \lstinline|get_field_values()| & - & - & - \\
+\hline
+\end{tabular}
+\end{center}
+
+
+
+
+\subsection{Semantics}
+
+
+\subsubsection{State Variables}
+
+
+Any fileds registered
+
+
+
+
+\subsubsection{Environment Variables}
+
+
+None
+
+
+
+
+\subsubsection{Assumptions}
+
+
+None
+
+
+
+
+\subsubsection{Access Routine Semantics}
+
+
+\noindent \lstinline|_register_field()|:
+\begin{itemize}
+    \item output:
+    \item exception:
+\end{itemize}
+
+
+\noindent \lstinline|get()|:
+\begin{itemize}
+    \item output:
+    \item exception:
+\end{itemize}
+
+
+\noindent \lstinline|set()|:
+\begin{itemize}
+    \item output:
+    \item exception:
+\end{itemize}
+
+
+\noindent \lstinline|iter()|:
+\begin{itemize}
+    \item output:
+    \item exception:
+\end{itemize}
+
+
+\noindent \lstinline|get_field_values()|:
+\begin{itemize}
+    \item output:
+    \item exception:
+\end{itemize}
+
+
+
+
+\subsubsection{Local Functions}
+
+
+None
+
+
+\newpage
+
+
+
+
+
+
+
+
+% 8 MIS of FileTree Name
+\section{MIS of FileTree Module (M3)}
+
+
+
+
+\subsection{Module}
+
+
+FileTree Module
+
+
+
+
+\subsection{Uses}
+
+
+TreeModel Module
+
+
+
+
+\subsection{Syntax}
+
+
+\subsubsection{Exported Constants}
+
+
+None
+
+
+
+
+\subsubsection{Exported Access Programs}
+
+
+\begin{center}
+\begin{tabular}{p{3cm} p{4cm} p{4cm} p{2cm}}
+\hline
+    \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+    \lstinline|get()| & - & - & - \\
+    \lstinline|glob()| & - & - & - \\
+\hline
+\end{tabular}
+\end{center}
+
+
+
+
+\subsection{Semantics}
+
+
+\subsubsection{State Variables}
+
+
+None
+
+
+
+
+\subsubsection{Environment Variables}
+
+
+None
+
+
+
+
+\subsubsection{Assumptions}
+
+
+None
+
+
+
+
+\subsubsection{Access Routine Semantics}
+
+
+\noindent \lstinline|get()|:
+\begin{itemize}
+    \item output:
+    \item exception:
+\end{itemize}
+
+
+\noindent \lstinline|glob()|:
+\begin{itemize}
+    \item output:
+    \item exception:
+\end{itemize}
+
+
+
+
+\subsubsection{Local Functions}
+
+
+None
+
+
+\newpage
+
+
+
+
+
+
+
 
 \bibliographystyle {plainnat}
 \bibliography {../../../refs/References}
 
+
 \newpage
+
 
 \section{Appendix} \label{Appendix}
 
-\wss{Extra information if required}
 
 \newpage{}
 
-\section*{Appendix --- Reflection}
 
-\wss{Not required for CAS 741 projects}
 
-The information in this section will be used to evaluate the team members on the
-graduate attribute of Problem Analysis and Design.
 
-\input{../../Reflection.text}
 
-\begin{enumerate}
-  \item What went well while writing this deliverable? 
-  \item What pain points did you experience during this deliverable, and how
-    did you resolve them?
-  \item Which of your design decisions stemmed from speaking to your client(s)
-  or a proxy (e.g. your peers, stakeholders, potential users)? For those that
-  were not, why, and where did they come from?
-  \item While creating the design doc, what parts of your other documents (e.g.
-  requirements, hazard analysis, etc), it any, needed to be changed, and why?
-  \item What are the limitations of your solution?  Put another way, given
-  unlimited resources, what could you do to make the project better? (LO\_ProbSolutions)
-  \item Give a brief overview of other design solutions you considered.  What
-  are the benefits and tradeoffs of those other designs compared with the chosen
-  design?  From all the potential options, why did you select the documented design?
-  (LO\_Explores)
-  \item (After you have implemented another team's module, which means this
-  isn't filled in until after the original deadline). What did you learn by
-  implementing another team's module? Were all the details you needed in the
-  documentation, or did you need to make assumptions, or ask the other team
-  questions?  If your team also had another team implement one of your modules,
-  what was this experience like?  Are there things in your documentation you
-  could have changed to make the process go more smoothly for when an
-  ``outsider'' completes some of the implementation?
-\end{enumerate}
+
 
 
 \end{document}
