@@ -63,7 +63,7 @@ urlcolor=cyan          % color of external links
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-    Mar 9, 2026 & 1.0 & Initial draft\\
+    Mar 25, 2026 & 1.0 & Initial draft\\
     % Date 2 & 1.1 & Notes\\
 \bottomrule
 \end{tabularx}
@@ -82,7 +82,7 @@ urlcolor=cyan          % color of external links
 \section{Symbols, Abbreviations and Acronyms}
 
 
-See \href{https://zhangwenchili.github.io/CAS741-EelbrainPipeline/SRS/SRS.pdf}{SRS Documentation}.
+See \url{https://zhangwenchili.github.io/CAS741-EelbrainPipeline/SRS/SRS.pdf}.
 
 
 \newpage
@@ -170,7 +170,7 @@ The following table is taken directly from the Module Guide document for this pr
 \midrule
 
 {Hardware-Hiding}
-    & Python \\
+    & Python & -- \\
 \midrule
 
 \multirow{7}{0.3\textwidth}{Behaviour-Hiding}
@@ -202,7 +202,7 @@ The following table is taken directly from the Module Guide document for this pr
 
 
 
-% 6 MIS of Module Name
+% 6 MIS of Pipeline Module
 \section{MIS of Pipeline Module}
 
 
@@ -230,21 +230,24 @@ FileTree Module, Preprocessing Module, Epoch Module, Covariance Module, MNE-Pyth
 \subsubsection{Exported Constants}
 
 
+None
+
+
 
 
 \subsubsection{Exported Access Programs}
 
 
 \begin{center}
-\begin{tabular}{p{3cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{3cm} p{4cm} p{4cm} p{4cm}}
 \hline
     \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-    \lstinline|load_raw| & - & - & - \\
-    \lstinline|load_events| & - & - & - \\
-    \lstinline|load_epochs| & - & - & - \\
-    \lstinline|load_evoked| & - & - & - \\
-    \lstinline|load_evoked_stc| & - & - & - \\
+    \lstinline|load_raw| & M/EEG raw file & \lstinline|mne.io.Raw| object & \lstinline|FileNotFoundError| \\
+    \lstinline|load_events| & \lstinline|mne.io.Raw| object & \lstinline|mne.events.Events| object & None \\
+    \lstinline|load_epochs| & \lstinline|mne.events.Events| object & \lstinline|mne.Epochs| object & \lstinline|RuntimeError| \\
+    \lstinline|load_evoked| & \lstinline|mne.Epochs| object & \lstinline|mne.Evoked| object & \lstinline|ValueError| \\
+    \lstinline|load_evoked_stc| & \lstinline|mne.Evoked| object & \lstinline|mne.SourceEstimate| object & \lstinline|RuntimeError| \\
 \hline
 \end{tabular}
 \end{center}
@@ -258,7 +261,7 @@ FileTree Module, Preprocessing Module, Epoch Module, Covariance Module, MNE-Pyth
 \subsubsection{State Variables}
 
 
-subject, session, task, run, raw, epoch, cov
+subject (string), session (string), task (string), run (string), raw (string), epoch (string), cov (string)
 
 
 
@@ -266,7 +269,7 @@ subject, session, task, run, raw, epoch, cov
 \subsubsection{Environment Variables}
 
 
-Eelbrain cache and MRI files in dataset
+Eelbrain cache and MRI files
 
 
 
@@ -274,7 +277,7 @@ Eelbrain cache and MRI files in dataset
 \subsubsection{Assumptions}
 
 
-None
+Current state variables point to valid files in the dataset
 
 
 
@@ -282,38 +285,43 @@ None
 \subsubsection{Access Routine Semantics}
 
 
-\noindent \lstinline|load_raw()|:
+\noindent \lstinline|load_raw(add_bads: sequence, preload: bool)|:
 \begin{itemize}
-    \item output:
-    \item exception:
+    \item transition: None
+    \item output: \lstinline|mne.io.Raw| object
+    \item exception: \lstinline|FileNotFoundError| if raw file is not found
 \end{itemize}
 
 
 \noindent \lstinline|load_events()|:
 \begin{itemize}
-    \item output:
-    \item exception:
+    \item transition: None
+    \item output: \lstinline|mne.events.Events| object
+    \item exception: None
 \end{itemize}
 
 
-\noindent \lstinline|load_epochs()|:
+\noindent \lstinline|load_epochs(reject: bool, trigger_shift: int)|:
 \begin{itemize}
-    \item output:
-    \item exception:
+    \item transition: None
+    \item output: \lstinline|mne.Epochs| object
+    \item exception: \lstinline|RuntimeError| if no events are found in the raw file based on the defined epochs
 \end{itemize}
 
 
-\noindent \lstinline|load_evoked()|:
+\noindent \lstinline|load_evoked(subjects: string)|:
 \begin{itemize}
-    \item output:
-    \item exception:
+    \item transition: None
+    \item output: \lstinline|mne.Evoked| object
+    \item exception: \lstinline|ValueError| when input is not sensor space data
 \end{itemize}
 
 
-\noindent \lstinline|load_evoked_stc()|:
+\noindent \lstinline|load_evoked_stc(subjects: string)|:
 \begin{itemize}
-    \item output:
-    \item exception:
+    \item transition: None
+    \item output: \lstinline|mne.SourceEstimate| object
+    \item exception: \lstinline|RuntimeError| if forward solution contains fewer sources than the source space
 \end{itemize}
 
 
@@ -334,7 +342,7 @@ None
 
 
 
-% 7 MIS of TreeModel Name
+% 7 MIS of TreeModel Module
 \section{MIS of TreeModel Module (M2)}
 
 
@@ -375,11 +383,11 @@ None
 \hline
     \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-    \lstinline|_register_field()| & - & - & - \\
-    \lstinline|get()| & - & - & - \\
-    \lstinline|set()| & - & - & - \\
-    \lstinline|iter()| & - & - & - \\
-    \lstinline|get_field_values()| & - & - & - \\
+    \lstinline|_register_field| & field name, values, default value & None & \lstinline|ValueError| \\
+    \lstinline|get| & field name & current field value & None \\
+    \lstinline|set| & field name, value & None & \lstinline|ValueError| \\
+    \lstinline|iter| & field names & iterator & None \\
+    \lstinline|get_field_values| & field name & all field values & None \\
 \hline
 \end{tabular}
 \end{center}
@@ -393,7 +401,10 @@ None
 \subsubsection{State Variables}
 
 
-Any fileds registered
+\begin{itemize}
+    \item \lstinline|self._fields: dict| -- A dictionary of field names and their current values
+    \item \lstinline|self._field_values: dict| -- A dictionary of field names and their possible values
+\end{itemize}
 
 
 
@@ -417,38 +428,43 @@ None
 \subsubsection{Access Routine Semantics}
 
 
-\noindent \lstinline|_register_field()|:
+\noindent \lstinline|_register_field(field_name: string, values: sequence, default_value: string)|:
 \begin{itemize}
-    \item output:
-    \item exception:
+    \item transition: add field name, values, default value to \lstinline|self._fields| and \lstinline|self._field_values|
+    \item output: None
+    \item exception: \lstinline|ValueError| if default value doesn't exist in values or if field name already exists
 \end{itemize}
 
 
-\noindent \lstinline|get()|:
+\noindent \lstinline|get(field_name: string)|:
 \begin{itemize}
-    \item output:
-    \item exception:
+    \item transition: None
+    \item output: returns current field value (string), recursively formats format strings using other field values if applicable
+    \item exception: None
 \end{itemize}
 
 
-\noindent \lstinline|set()|:
+\noindent \lstinline|set(field_name: string, value: string)|:
 \begin{itemize}
-    \item output:
-    \item exception:
+    \item transition: change current value of the field in \lstinline|self._fields|
+    \item output: None
+    \item exception: \lstinline|ValueError| if value is not in allowed values
 \end{itemize}
 
 
-\noindent \lstinline|iter()|:
+\noindent \lstinline|iter(field_names: sequence)|:
 \begin{itemize}
-    \item output:
-    \item exception:
+    \item transition: None
+    \item output: Python iterator over all possible field value combinations
+    \item exception: None
 \end{itemize}
 
 
-\noindent \lstinline|get_field_values()|:
+\noindent \lstinline|get_field_values(field_name: string)|:
 \begin{itemize}
-    \item output:
-    \item exception:
+    \item transition: None
+    \item output: all possible values of the field in \lstinline|self._field_values| (sequence of strings)
+    \item exception: None
 \end{itemize}
 
 
@@ -469,7 +485,7 @@ None
 
 
 
-% 8 MIS of FileTree Name
+% 8 MIS of FileTree Module
 \section{MIS of FileTree Module (M3)}
 
 
@@ -510,8 +526,325 @@ None
 \hline
     \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-    \lstinline|get()| & - & - & - \\
-    \lstinline|glob()| & - & - & - \\
+    \lstinline|get| & field name & current file path & OSError \\
+    \lstinline|glob| & pattern & sequence of file paths & None \\
+\hline
+\end{tabular}
+\end{center}
+
+
+
+
+\subsection{Semantics}
+
+
+\subsubsection{State Variables}
+
+
+Same as TreeModel Module
+
+
+
+
+\subsubsection{Environment Variables}
+
+
+None
+
+
+
+
+\subsubsection{Assumptions}
+
+
+None
+
+
+
+
+\subsubsection{Access Routine Semantics}
+
+
+\noindent \lstinline|get(field_name: string, mkdir: bool)|:
+\begin{itemize}
+    \item transition: None
+    \item output: current file path expanded from the current field value (pathlib.Path object)
+    \item exception: OSError if mkdir is True and root directory does not exist
+\end{itemize}
+
+
+\noindent \lstinline|glob(pattern: string)|:
+\begin{itemize}
+    \item transition: None
+    \item output: sequence of file paths matching the provided pattern (sequence of strings)
+    \item exception: None
+\end{itemize}
+
+
+
+
+\subsubsection{Local Functions}
+
+
+None
+
+
+\newpage
+
+
+
+
+
+
+
+
+% 9 MIS of Preprocessing Module
+\section{MIS of Preprocessing Module (M4)}
+
+
+
+
+\subsection{Module}
+
+
+Preprocessing Module
+
+
+
+
+\subsection{Uses}
+
+
+MNE-Python Module
+
+
+
+
+\subsection{Syntax}
+
+
+\subsubsection{Exported Constants}
+
+
+None
+
+
+
+
+\subsubsection{Exported Access Programs}
+
+
+\begin{center}
+\begin{tabular}{p{4cm} p{4cm} p{4cm} p{2cm}}
+\hline
+    \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+    \lstinline|load| & \lstinline|mne_bids.BIDSPath| object & \lstinline|mne.io.Raw| object & \lstinline|FileNotFoundError| \\
+    \lstinline|load_bad_channels| & None & sequence of bad channels & None \\
+    \lstinline|make_bad_channels| & sequence of bad channels & None & None \\
+    \lstinline|make_ica| & \lstinline|mne.io.Raw| object & None & \lstinline|RuntimeError| \\
+    \lstinline|load_ica| & None & \lstinline|mne.preprocessing.ICA| object & \lstinline|FileNotFoundError| \\
+\hline
+\end{tabular}
+\end{center}
+
+
+
+
+\subsection{Semantics}
+
+
+\subsubsection{State Variables}
+
+
+\lstinline|mne_bids.BIDSPath| object
+
+
+
+
+\subsubsection{Environment Variables}
+
+
+Original or processed M/EEG raw files in dataset, channels.tsv files for each raw file
+
+
+
+
+\subsubsection{Assumptions}
+
+
+None
+
+
+
+
+\subsubsection{Access Routine Semantics}
+
+
+\noindent \lstinline|load(bids_path: mne_bids.BIDSPath)|:
+\begin{itemize}
+    \item transition: None
+    \item output: \lstinline|mne.io.Raw| object
+    \item exception: \lstinline|FileNotFoundError| if raw file constructed from \lstinline|bids_path| does not exist
+\end{itemize}
+
+
+\noindent \lstinline|load_bad_channels()|:
+\begin{itemize}
+    \item transition: None
+    \item output: sequence of bad channels for the corresponding raw file (sequence of strings)
+    \item exception: None
+\end{itemize}
+
+
+\noindent \lstinline|make_bad_channels(bads: sequence)|:
+\begin{itemize}
+    \item transition: write bad channels to the corresponding channels.tsv file, make the tsv file if it does not exist
+    \item output: None
+    \item exception: None
+\end{itemize}
+
+
+\noindent \lstinline|make_ica()|:
+\begin{itemize}
+    \item transition: invoke MNE-Python function to produce ICA result and save to disk as .fif file
+    \item output: None
+    \item exception: \lstinline|RuntimeError| if ICA computation failed to produce a valid result
+\end{itemize}
+
+
+\noindent \lstinline|load_ica()|:
+\begin{itemize}
+    \item transition: None
+    \item output: \lstinline|mne.preprocessing.ICA| object
+    \item exception: \lstinline|FileNotFoundError| if no corresponding cached ICA result is found at disk
+\end{itemize}
+
+
+\subsubsection{Local Functions}
+
+
+None
+
+
+\newpage
+
+
+
+
+
+
+
+
+% 10 MIS of Epoch Module
+\section{MIS of Epoch Module (M5)}
+
+
+
+
+\subsection{Module}
+
+
+Epoch Module, used as a data module for user to provide epoch definition
+
+
+
+
+\subsection{Uses}
+
+
+MNE-Python Module
+
+
+
+
+\subsection{Syntax}
+
+
+\subsubsection{Exported Constants}
+
+
+\begin{itemize}
+    \item \lstinline|task: string| -- Task (raw file) from which to load data
+    \item \lstinline|sel: string| -- Expression to get the events included in this epoch specification
+    \item \lstinline|tmin: float| -- Start of the epoch, relative to the event timepoint
+    \item \lstinline|tmax: float| -- End of the epoch, relative to the event timepoint
+    \item \lstinline|samplingrate: float| -- Target epoch samplingrate, needs to divide data samplingrate evenly
+\end{itemize}
+
+
+
+
+\subsubsection{Exported Access Programs}
+
+
+None
+
+
+
+
+\subsection{Semantics}
+
+
+None
+
+
+\newpage
+
+
+
+
+
+
+
+
+% 11 MIS of Covariance Module
+\section{MIS of Covariance Module (M6)}
+
+
+
+
+\subsection{Module}
+
+
+Covariance Module, used as a data module for user to provide covariance definition
+
+
+
+
+\subsection{Uses}
+
+
+MNE-Python Module
+
+
+
+
+\subsection{Syntax}
+
+
+\subsubsection{Exported Constants}
+
+
+\begin{itemize}
+    \item \lstinline|key: string| -- Name for this covariance
+    \item \lstinline|method: {"empirical", "best", "ad_hoc"}| -- Method for computing covariance
+    \item \lstinline|epoch: str| -- name of epoch to use
+\end{itemize}
+
+
+
+
+
+\subsubsection{Exported Access Programs}
+
+
+\begin{center}
+\begin{tabular}{p{3cm} p{4cm} p{4cm} p{2cm}}
+\hline
+    \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+    \lstinline|make| & None & \lstinline|mne.cov.Covariance| object & \lstinline|RuntimeError| \\
 \hline
 \end{tabular}
 \end{center}
@@ -549,20 +882,143 @@ None
 \subsubsection{Access Routine Semantics}
 
 
-\noindent \lstinline|get()|:
+\noindent \lstinline|make()|:
 \begin{itemize}
-    \item output:
-    \item exception:
+    \item transition: None
+    \item output: invoke MNE-Python function to produce covariance matrix and return as \lstinline|mne.cov.Covariance| object
+    \item exception: \lstinline|RuntimeError| if covariance computation failed to produce a valid result
 \end{itemize}
 
 
-\noindent \lstinline|glob()|:
+
+
+\subsubsection{Local Functions}
+
+
+None
+
+
+\newpage
+
+
+
+
+
+
+
+
+% 12 MIS of MNE-Python Module
+\section{MIS of MNE-Python Module (M7)}
+
+
+
+
+\subsection{Module}
+
+
+MNE-Python Module
+
+
+
+
+\subsection{Uses}
+
+
+None
+
+
+
+
+\subsection{Syntax}
+
+
+\subsubsection{Exported Constants}
+
+
+None
+
+
+
+
+\subsubsection{Exported Access Programs}
+
+
+\begin{center}
+\begin{tabular}{p{5cm} p{4cm} p{4cm} p{3cm}}
+\hline
+    \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+    \lstinline|mne.io.read_raw_fiff| & M/EEG raw file & \lstinline|mne.io.Raw| & \lstinline|FileNotFoundError| \\
+    \lstinline|mne.preprocessing.ICA| & \lstinline|mne.io.Raw| object & \lstinline|mne.preprocessing.ICA| object & \lstinline|RuntimeError| \\
+    \lstinline|mne.Epochs| & \lstinline|mne.io.Raw| object, \lstinline|mne.events.Events| object & \lstinline|mne.Epochs| object & \lstinline|RuntimeError| \\
+    \lstinline|mne.compute_covariance| & \lstinline|mne.Epochs| object, method (string) & \lstinline|mne.cov.Covariance| object & \lstinline|RuntimeError| \\
+\hline
+\end{tabular}
+\end{center}
+
+
+
+
+\subsection{Semantics}
+
+
+\subsubsection{State Variables}
+
+
+None
+
+
+
+
+\subsubsection{Environment Variables}
+
+
+None
+
+
+
+
+\subsubsection{Assumptions}
+
+
+None
+
+
+
+
+\subsubsection{Access Routine Semantics}
+
+
+\noindent \lstinline|mne.io.read_raw_fiff(fname: string, add_bads: sequence, preload: bool)|:
 \begin{itemize}
-    \item output:
-    \item exception:
+    \item transition: None
+    \item output: \lstinline|mne.io.Raw| object
+    \item exception: \lstinline|FileNotFoundError| if raw file is not found at the given fname
 \end{itemize}
 
 
+\noindent \lstinline|mne.preprocessing.ICA(raw: mne.io.Raw, method: string)|:
+\begin{itemize}
+    \item transition: None
+    \item output: \lstinline|mne.preprocessing.ICA| object
+    \item exception: \lstinline|RuntimeError| if ICA failed to produce a valid result
+\end{itemize}
+
+
+\noindent \lstinline|mne.Epochs(raw: mne.io.Raw, events: mne.events.Events, tmin: float, tmax: float)|:
+\begin{itemize}
+    \item transition: None
+    \item output: \lstinline|mne.Epochs| object
+    \item exception: \lstinline|RuntimeError| if no events are found in the raw file based on the defined epochs
+\end{itemize}
+
+
+\noindent \lstinline|mne.compute_covariance(epochs: mne.Epochs, method: string)|:
+\begin{itemize}
+    \item transition: None
+    \item output: \lstinline|mne.cov.Covariance| object
+    \item exception: \lstinline|RuntimeError| if no valid covariance matrix can be produced (algorithm did not converge)
+\end{itemize}
 
 
 \subsubsection{Local Functions}
@@ -585,12 +1041,6 @@ None
 
 
 \newpage
-
-
-\section{Appendix} \label{Appendix}
-
-
-\newpage{}
 
 
 

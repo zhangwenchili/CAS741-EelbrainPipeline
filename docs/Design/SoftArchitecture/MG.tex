@@ -55,7 +55,7 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-    Mar 9, 2026 & 1.0 & Initial draft\\
+    Mar 25, 2026 & 1.0 & Initial draft\\
 \bottomrule
 \end{tabularx}
 
@@ -298,7 +298,7 @@ Only the leaf modules in the hierarchy have to be implemented. If a dash (\emph{
 \begin{description}
     \item[Secrets:]The contents of the required behaviours.
     \item[Services:]Includes programs that provide externally visible behaviour of the system as specified in the software requirements specification (SRS) documents. This module serves as a communication layer between the hardware-hiding module and the software decision module. The programs in this module will need to change if there are changes in the SRS.
-    \item[Implemented By:] --
+    \item[Implemented By:] \progname and external libraries
 \end{description}
 
 
@@ -309,10 +309,80 @@ Only the leaf modules in the hierarchy have to be implemented. If a dash (\emph{
 
 
 \begin{description}
-    \item[Secrets:]The format and structure of the input data.
-    \item[Services:]Converts the input data into the data structure used by the input parameters module.
+    \item[Secrets:] Management of format strings and field values.
+    \item[Services:] Provides the capability to manage field states to Pipeline Module.
     \item[Implemented By:] \progname
-    \item[Type of Module:] Class
+    \item[Type of Module:] Python class
+\end{description}
+
+
+
+
+% 7.2.2 FileTree Module
+\subsubsection{FileTree Module (\mref{mFileTree})}
+
+
+\begin{description}
+    \item[Secrets:] Path related support for TreeModel.
+    \item[Services:] Adds path related support to TreeModel (expanduser, globbing file paths).
+    \item[Implemented By:] \progname
+    \item[Type of Module:] Python class
+\end{description}
+
+
+
+
+% 7.2.3 Preprocessing Module
+\subsubsection{Preprocessing Module (\mref{mPreprocessing})}
+
+
+\begin{description}
+    \item[Secrets:] How to apply preprocessing steps and potentially cache the results.
+    \item[Services:] A data module for user to provide preprocessing definitions. Provides preprocessing operations based on MNE-Python to Pipeline Module.
+    \item[Implemented By:] \progname
+    \item[Type of Module:] Python class
+\end{description}
+
+
+
+
+% 7.2.4 Epoch Module
+\subsubsection{Epoch Module (\mref{mEpoch})}
+
+
+\begin{description}
+    \item[Secrets:] Specification of an epoch, parameters needed to get the target epochs.
+    \item[Services:] A data module for user to provide epoch definitions.
+    \item[Implemented By:] \progname
+    \item[Type of Module:] Python class
+\end{description}
+
+
+
+
+% 7.2.5 Covariance Module
+\subsubsection{Covariance Module (\mref{mCovariance})}
+
+
+\begin{description}
+    \item[Secrets:] Specification of a covariance, and how to use MNE-Python to compute the covariance matrix.
+    \item[Services:] A data module for user to provide covariance definitions.
+    \item[Implemented By:] \progname
+    \item[Type of Module:] Python class
+\end{description}
+
+
+
+
+% 7.2.6 MNE-Python Module
+\subsubsection{MNE-Python Module (\mref{mMNE})}
+
+
+\begin{description}
+    \item[Secrets:] Actual algorithms and file reading/writing operations.
+    \item[Services:] Apply data processing algorithms to M/EEG data correctly and efficiently.
+    \item[Implemented By:] MNE-Python
+    \item[Type of Module:] Python functions and classes
 \end{description}
 
 
@@ -330,9 +400,7 @@ Only the leaf modules in the hierarchy have to be implemented. If a dash (\emph{
 \begin{description}
     \item[Secrets:] The design decision based on mathematical theorems, physical facts, or programming considerations. The secrets of this module are \emph{not} described in the SRS.
     \item[Services:] Includes data structure and algorithms used in the system that do not provide direct interaction with the user. 
-    % Changes in these modules are more likely to be motivated by a desire to
-    % improve performance than by externally imposed changes.
-    \item[Implemented By:] --
+    \item[Implemented By:] \progname
 \end{description}
 
 
@@ -342,20 +410,10 @@ Only the leaf modules in the hierarchy have to be implemented. If a dash (\emph{
 
 
 \begin{description}
-    \item[Secrets:] The design decision based on mathematical theorems, physical facts, or programming considerations. The secrets of this module are \emph{not} described in the SRS.
-    \item[Services:] Includes data structure and algorithms used in the system that do not provide direct interaction with the user. 
-    % Changes in these modules are more likely to be motivated by a desire to
-    % improve performance than by externally imposed changes.
-    \item[Implemented By:] --
+    \item[Secrets:] How to transform user input into parameters to use other modules.
+    \item[Services:] Provides user interface for user to interact with the pipeline. User will create a subclass of Pipeline Module to define the pipeline.
+    \item[Implemented By:] \progname
 \end{description}
-
-
-
-
-
-
-
-
 % 8 Traceability Matrix
 \section{Traceability Matrix} \label{SecTM}
 
@@ -433,7 +491,7 @@ In this section, the uses hierarchy between modules is provided. \citet{Parnas19
 \section{User Interfaces}
 
 
-Pipeline Module serves as user interface.
+\progname{} is a tool for command line or Jupyter Notebook usage. Pipeline Module (M1) serves as user interface.
 
 
 
@@ -471,8 +529,7 @@ NA
 \section{Timeline}
 
 
-\wss{Schedule of tasks and who is responsible}
-\wss{You can point to GitHub if this information is included there}
+Timeline is managed in \url{https://github.com/orgs/Eelbrain/projects/3}.
 
 
 
