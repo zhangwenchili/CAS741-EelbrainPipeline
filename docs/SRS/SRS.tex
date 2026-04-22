@@ -423,6 +423,10 @@ easier to correctly understand the requirements:
     \item \textbf{Neural source}: A region or population of neurons whose electrical activity contributes to the measured M/EEG signals.
     
     \item \textbf{Sensor}: A measurement device, such as an EEG electrode or MEG detector, used to record electromagnetic signals produced by neural activity.
+
+    \item \textbf{Events}: A list of time points or intervals during which the stimulus is presented to the participant.
+    
+    \item \textbf{Epochs}: A contiguous segment of data corresponding to a specific event or stimulus.
     
     \item \textbf{Source space}: A predefined set of candidate locations within the brain where neural sources are allowed to exist for modeling purposes.
 
@@ -486,7 +490,7 @@ The physical system of \progname{}, as shown in Figure~\ref{fig:physical_system}
 
     \item[GS\refstepcounter{goalnum}\thegoalnum \label{G_sourceLocalization}:] Estimate source localization of neural activity from M/EEG recordings.
 
-    \item[GS\refstepcounter{goalnum}\thegoalnum \label{G_noiseRobustness}:]
+    % \item[GS\refstepcounter{goalnum}\thegoalnum \label{G_noiseRobustness}:]
     % Account for measurement and environmental noise when processing M/EEG data, when specified by user.
 
 \end{itemize}
@@ -526,13 +530,13 @@ Not applicable.
 \begin{itemize}
 
     \item[A\refstepcounter{assumpnum}\theassumpnum \label{A_dipole}:]
-    Neural electrical activity can be approximated by equivalent current dipoles distributed within the brain. [IM]
+    Neural electrical activity can be approximated by equivalent current dipoles distributed within the brain. \iref{IM_sensorAggregate}
 
     \item[A\refstepcounter{assumpnum}\theassumpnum \label{A_linear}:]
-    The relationship between neural source activity and M/EEG sensor measurements is linear. [IM]
+    The relationship between neural source activity and M/EEG sensor measurements is linear. \iref{IM_inverseOpConstruct}
 
     \item[A\refstepcounter{assumpnum}\theassumpnum \label{A_noiseGaussian}:]
-    Measurement noise is assumed to be additive and can be modeled statistically using second-order moments. [IM]
+    Measurement noise is assumed to be additive and can be modeled statistically using second-order moments. \iref{IM_inverse}
 
 \end{itemize}
 
