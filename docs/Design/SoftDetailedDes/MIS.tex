@@ -431,7 +431,7 @@ None
 
 \noindent \lstinline|_register_field(field_name: string, values: sequence, default_value: string)|:
 \begin{itemize}
-    \item transition: add field name, values, default value to \lstinline|self._fields| and \lstinline|self._field_values|
+    \item transition: insert new key \lstinline|field_name|; set \lstinline|self._field_values[field_name]| to the provided \lstinline|values| sequence, and set \lstinline|self._fields[field_name]| to \lstinline|default_value| (initial current value)
     \item output: None
     \item exception: \lstinline|ValueError| if default value doesn't exist in values or if field name already exists
 \end{itemize}
