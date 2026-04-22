@@ -359,7 +359,7 @@ The responsibilities of each entity for data exchange are listed as follows.
     \item \progname{} Responsibilities:
         \begin{itemize}
             \item Detect data files in input dataset according to BIDS specification and provide correct file paths to MNE-Python functions.
-            \item Transform experiment configuration defined by user into appropriate parameters for MNE-Python functions. Infer certain parameters when applicable.
+            \item Transform experiment configuration defined by user into appropriate parameters for MNE-Python functions. Infer BIDS entity values from file names in the dataset if needed by MNE-Python functions.
         \end{itemize}
     \item MNE-Python Responsibility: Given valid file paths and parameters, apply data processing algorithms to M/EEG data correctly and efficiently.
 \end{itemize}
@@ -900,11 +900,11 @@ This section provides the functional requirements, the business tasks that the s
 
     \item[R\refstepcounter{reqnum}\thereqnum \label{R_BIDS}:] The input dataset should conform to BIDS format. If MRI data is provided, it be in FreeSurfer format.
     
-    \item[R\refstepcounter{reqnum}\thereqnum \label{R_Infer}:] Infer certain parameters from dataset when applicable.
+    \item[R\refstepcounter{reqnum}\thereqnum \label{R_Infer}:] Infer BIDS entity values from file names in the dataset if needed by MNE-Python functions.
 
     \item[R\refstepcounter{reqnum}\thereqnum \label{R_Configuration}:] Support sensor space analysis and source localization.
 
-    \item[R\refstepcounter{reqnum}\thereqnum \label{R_Output}:] The output data should be in MNE-Python data structures representing different stages of processed data.
+    \item[R\refstepcounter{reqnum}\thereqnum \label{R_Output}:] The output data should be in MNE-Python data structures representing different stages of processed data, including raw data, epochs data, evoked data, source-space data.
 
 \end{itemize}
 
@@ -921,7 +921,7 @@ This section provides the functional requirements, the business tasks that the s
     At least 80\% of users when surveyed will rate the software as easy to use.
 
     \item[NFR\refstepcounter{nfrnum}\thenfrnum \label{NFR_Maintainability}:]
-    \textbf{Maintainability} For any developer with relavant domain knowledge, the effort required to make any of the likely changes listed for \progname{} should be less than 0.5 of the original development time.
+    \textbf{Maintainability} For any developer with the domain knowledge as described in Section~\ref{sec_IntendedReader}, the effort required to make any of the likely changes listed for \progname{} should be less than 0.5 of the original development time.
 
     \item[NFR\refstepcounter{nfrnum}\thenfrnum \label{NFR_Portability}:]
     \textbf{Portability} \progname{} should run on Windows, MacOS or Linux.
@@ -936,7 +936,7 @@ This section provides the functional requirements, the business tasks that the s
 
 
 
-The assumptions made are standard approaches adopted in the source papers of instance models, without which the brain response process can't be modeled mathematically.
+The assumptions made are required by instance models, in order to simplify the real brain response process to be modeled mathematically.
 
 
 
@@ -949,9 +949,9 @@ The assumptions made are standard approaches adopted in the source papers of ins
 
 \noindent \begin{itemize}
 
-    \item[LC\refstepcounter{lcnum}\thelcnum\label{LC_bids}:] Support more BIDS entities in input dataset.
+    \item[LC\refstepcounter{lcnum}\thelcnum\label{LC_bids}:] Support more BIDS entities in input dataset, other than subject, session, task, run, split.
 
-    \item[LC\refstepcounter{lcnum}\thelcnum\label{LC_preprocessing}:] Support more preprocessing operations.
+    \item[LC\refstepcounter{lcnum}\thelcnum\label{LC_preprocessing}:] Support more preprocessing operations, other than filtering, resampling, marking bad channels, ICA (independent component analysis).
 
     \item[LC\refstepcounter{lcnum}\thelcnum\label{LC_mri}:] Support more MRI formats other than FreeSurfer.
 
