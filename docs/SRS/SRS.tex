@@ -215,16 +215,16 @@ The table that follows summarizes the symbols used in this document along with t
 \noindent \begin{longtable*}{l l p{12cm}} \toprule
 	extbf{symbol} & \textbf{unit} & \textbf{description}\\
 \midrule 
-    $\mathbf{A}$ & -- & Forward model / linear operator mapping sources to sensors.\\
-    $\tilde{\mathbf{A}}$ & -- & Whitened forward operator.\\
+    $A$ & -- & Forward model / linear operator mapping sources to sensors.\\
+    $\tilde{A}$ & -- & Whitened forward operator.\\
     $f_s$ & \si{\hertz} & Sampling frequency of the M/EEG recordings.\\
-    $\mathbf{L}$ & -- & Forward model operator used in the linear source estimation model.\\
+    $L$ & -- & Forward model operator used in the linear source estimation model.\\
     $N_c$ & -- & Number of M/EEG sensors used to record the measurements.\\
-    $\mathcal{R}(\mathbf{x})$ & -- & Regularization term in the optimization formulation.\\
-    $\mathbf{W}$ & -- & Inverse operator mapping sensor measurements to source estimates.\\
-    $\hat{\mathbf{x}}$ & -- & Estimated source vector in the regularized linear inverse problem.\\
-    $\mathbf{y}$ & \si{\micro\volt} (EEG) & Observed data vector used in the linear inverse formulation.\\
-    $\mathbf{y}_a(t)$ & \si{\micro\volt} (EEG) & Aggregated sensor-level representation derived from $\mathbf{y}(t)$.\\
+    $\mathcal{R}(x)$ & -- & Regularization term in the optimization formulation.\\
+    $W$ & -- & Inverse operator mapping sensor measurements to source estimates.\\
+    $\hat{x}$ & -- & Estimated source vector in the regularized linear inverse problem.\\
+    $y$ & \si{\micro\volt} (EEG) & Observed data vector used in the linear inverse formulation.\\
+    $y_a(t)$ & \si{\micro\volt} (EEG) & Aggregated sensor-level representation derived from $y(t)$.\\
 \bottomrule
 \end{longtable*}
 
@@ -549,20 +549,20 @@ This section focuses on the general equations and laws that \progname{} is based
 { TM:Optimization }
 { Regularized linear inverse problem }
 {
-    $\hat{\mathbf{x}} =
-    \arg\min_{\mathbf{x}}
+    $\hat{x} =
+    \arg\min_{x}
     \left(
-        \|\mathbf{y} - \mathbf{A}\mathbf{x}\|_2^2
-        + \lambda\,\mathcal{R}(\mathbf{x})
+        \|y - Ax\|_2^2
+        + \lambda\,\mathcal{R}(x)
     \right)$
 }
 {
-    This theoretical model formulates a regularized linear inverse problem as an optimization task. The objective is to estimate an unknown vector $\hat{\mathbf{x}}$ that explains the observed data $\mathbf{y}$ through a linear operator $\mathbf{A}$. The first term enforces fidelity to the observed data, while the regularization term $\mathcal{R}(\mathbf{x})$ introduces additional constraints that ensure the existence, uniqueness, or stability of the solution. The regularization parameter $\lambda$ controls the relative importance of the regularization term. This formulation provides a general framework for solving ill-posed linear inverse problems.
+    This theoretical model formulates a regularized linear inverse problem as an optimization task. The objective is to estimate an unknown vector $\hat{x}$ that explains the observed data $y$ through a linear operator $A$. The first term enforces fidelity to the observed data, while the regularization term $\mathcal{R}(x)$ introduces additional constraints that ensure the existence, uniqueness, or stability of the solution. The regularization parameter $\lambda$ controls the relative importance of the regularization term. This formulation provides a general framework for solving ill-posed linear inverse problems.
 }
 { None }
 { https://epubs.siam.org/doi/book/10.1137/1.9780898719697 }
 { \dref{IM_inverse} }
-{ The linear operator $\mathbf{A}$ and observed data $\mathbf{y}$ are defined. }
+{ The linear operator $A$ and observed data $y$ are defined. }
 ~\newline
 
 
@@ -648,14 +648,14 @@ This section collects and defines all the file types needed to build the instanc
 \hline
     Label & \bf Raw sensor measurements\\
 \hline
-    Symbol & $\mathbf{y}(t)$\\
+    Symbol & $y(t)$\\
 \hline
     SI Units & \si{\micro\volt} (EEG)\\
 \hline
     Equation & None \\
 \hline
     Description &
-    $\mathbf{y}(t)$ is the vector of time-varying signals recorded at all sensors at time $t$, with each element corresponding to a single sensor measurement. \\
+    $y(t)$ is the vector of time-varying signals recorded at all sensors at time $t$, with each element corresponding to a single sensor measurement. \\
 \hline
     Sources& None \\
 \hline
@@ -693,15 +693,15 @@ The goal GS~\ref{G_sensorSpace} is solved by IM~\ref{IM_sensorAggregate}. The go
     Label& \bf Sensor space aggregation from raw data\\
 \hline
     Input
-    & Raw sensor measurements $\mathbf{y}(t)$; \\
+    & Raw sensor measurements $y(t)$; \\
     & Event information \\
 \hline
     Output&
-    Aggregated sensor-level representation $\mathbf{y}_a(t)$ \\
+    Aggregated sensor-level representation $y_a(t)$ \\
 \hline
     Description
-    & $\mathbf{y}(t)$ represents raw time-series measurements recorded at the sensors.\\
-    & The data are transformed into an aggregated sensor-level representation $\mathbf{y}_a(t)$ through aggregation operations defined in the sensor space,
+    & $y(t)$ represents raw time-series measurements recorded at the sensors.\\
+    & The data are transformed into an aggregated sensor-level representation $y_a(t)$ through aggregation operations defined in the sensor space,
     such as averaging or other summary statistics over time or trials.\\
     & The resulting representation preserves the original sensor geometry while emphasizing consistent patterns across measurements.\\
     & This instance model specifies sensor space aggregation without introducing assumptions about the underlying source distribution.\\
@@ -727,20 +727,20 @@ The goal GS~\ref{G_sensorSpace} is solved by IM~\ref{IM_sensorAggregate}. The go
     Label& \bf Inverse operator construction \\
 \hline
     Input
-    & Raw MEG data $\mathbf{y}(t)$; \\
+    & Raw MEG data $y(t)$; \\
     & Structural MRI data; \\
     & Regularization parameter $\lambda$ \\
 \hline
     Output
-    & Inverse operator $\mathbf{W}$ such that \\
-    & $\mathbf{W} =
-        (\tilde{\mathbf{A}}^\top \tilde{\mathbf{A}} + \lambda \mathbf{I})^{-1}
-        \tilde{\mathbf{A}}^\top$ \\
+    & Inverse operator $W$ such that \\
+    & $W =
+        (\tilde{A}^\top \tilde{A} + \lambda I)^{-1}
+        \tilde{A}^\top$ \\
 \hline
     Description &
-    Raw MEG data $\mathbf{y}(t)$ are used to estimate the noise covariance matrix, which defines a whitening operator applied to the data and the forward model. \\
-    & Structural MRI data are used to define the source space and to construct a geometrical head model, from which the linear forward operator $\mathbf{A}$ is obtained. \\
-    & The whitened forward operator $\tilde{\mathbf{A}}$ is combined with the regularization parameter $\lambda$ to define the inverse operator $\mathbf{W}$ as the closed-form solution of a regularized linear inverse problem. \\
+    Raw MEG data $y(t)$ are used to estimate the noise covariance matrix, which defines a whitening operator applied to the data and the forward model. \\
+    & Structural MRI data are used to define the source space and to construct a geometrical head model, from which the linear forward operator $A$ is obtained. \\
+    & The whitened forward operator $\tilde{A}$ is combined with the regularization parameter $\lambda$ to define the inverse operator $W$ as the closed-form solution of a regularized linear inverse problem. \\
     & This instance model specifies how raw data and modeling assumptions determine a fixed inverse operator, independent of its subsequent application to sensor-level data. \\
 \hline
     Sources & https://ui.adsabs.harvard.edu/abs/1993RvMP...65..413H/abstract \\
@@ -763,18 +763,18 @@ The goal GS~\ref{G_sensorSpace} is solved by IM~\ref{IM_sensorAggregate}. The go
     Label& \bf Linear source estimation model\\
 \hline
     Input
-    & Observed M/EEG sensor measurements $\mathbf{y}(t)$. \\
-    & Inverse operator $\mathbf{W}$. \\
+    & Observed M/EEG sensor measurements $y(t)$. \\
+    & Inverse operator $W$. \\
     & Noise and regularization assumptions. \\
 \hline
     Output
-    & Estimated neural source activity $\hat{\mathbf{x}}(t)$ such that \\
-    & $\hat{\mathbf{x}}(t) = \mathbf{W}\,\mathbf{y}(t)$ \\
+    & Estimated neural source activity $\hat{x}(t)$ such that \\
+    & $\hat{x}(t) = W\,y(t)$ \\
 \hline
     Description
-    & $\mathbf{y}(t)$ represents the recorded sensor-level signals. \\
-    & $\hat{\mathbf{x}}(t)$ represents the estimated neural source activity defined on the source space. \\
-    & $\mathbf{W}$ is an inverse operator derived from the forward model and noise
+    & $y(t)$ represents the recorded sensor-level signals. \\
+    & $\hat{x}(t)$ represents the estimated neural source activity defined on the source space. \\
+    & $W$ is an inverse operator derived from the forward model and noise
     assumptions. \\
 \hline
     Sources & https://pmc.ncbi.nlm.nih.gov/articles/PMC6870961/ \\
