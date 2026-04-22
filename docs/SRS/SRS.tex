@@ -218,7 +218,6 @@ The table that follows summarizes the symbols used in this document along with t
     $A$ & -- & Forward model / linear operator mapping sources to sensors.\\
     $\tilde{A}$ & -- & Whitened forward operator.\\
     $f_s$ & \si{\hertz} & Sampling frequency of the M/EEG recordings.\\
-    $L$ & -- & Forward model operator used in the linear source estimation model.\\
     $N_c$ & -- & Number of M/EEG sensors used to record the measurements.\\
     $\mathcal{R}(x)$ & -- & Regularization term in the optimization formulation.\\
     $W$ & -- & Inverse operator mapping sensor measurements to source estimates.\\
@@ -881,9 +880,8 @@ A correct solution must exhibit:
     $\hat{\bf x}(t)$ &
     Finite amplitude and defined only on the predefined source space \\
 
-    ${\bf y}_{\text{model}}(t)$ &
-    ${\bf y}_{\text{model}}(t) = {\bf L}\hat{\bf x}(t)$, preserving the linear 
-    relationship \\
+    ${y}_{\text{model}}(t)$ &
+    ${y}_{\text{model}}(t) = A \hat{x}(t)$, where $A$ is the forward operator defined in \iref{IM_inverseOpConstruct}, preserving the linear relationship \\
 
 \bottomrule
 \end{longtable*}
