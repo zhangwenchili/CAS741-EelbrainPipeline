@@ -445,7 +445,7 @@ The following system-level test cases are derived from the functional requiremen
 \item{NFR-01\\}
     Type: Manual \\
     Initial State: An alpha version of Eelbrain pipeline is available; a user group consisting of neuroscience researchers is selected. \\
-    Input/Condition: Participants complete a short analysis task (load raw files, compute evoked response and access results) and then complete a usability survey questionnaire. \\
+    Input/Condition: Participants complete a short analysis task (load raw files, compute evoked response and access results) and then complete a usability survey questionnaire (\ref{sec_usability_survey_questionnaire}). \\
     Output/Result: At least 80\% of respondents rate the software as easy to use. \\
     How test will be performed: Collect questionnaire results; compute the percentage of "easy to use" responses and verify if it is larger than 80\%.
 
@@ -607,17 +607,31 @@ The following system-level test cases are derived from the functional requiremen
 
 
 
-% \section{Appendix}
+\section{Appendix}
 
 
+\subsection{Usability Survey Questionnaire}
+ \label{sec_usability_survey_questionnaire}
 
+Participants will answer the following questions after completing the representative tasks defined for usability evaluation. Unless otherwise noted, each item uses a 5-point Likert scale: 1 = Strongly Disagree, 2 = Disagree, 3 = Neutral, 4 = Agree, 5 = Strongly Agree.
 
-% \subsection{Symbolic Parameters}
+\begin{enumerate}
+    \item The installation and environment setup instructions were clear and easy to follow.
+    \item I could understand how to prepare and organize input data for the pipeline.
+    \item The command-line usage and required options were easy to understand.
+    \item The error messages and warnings were clear enough to help me recover from mistakes.
+    \item The generated outputs (files and logs) were easy to locate and interpret.
+    \item The overall workflow felt efficient for completing the intended analysis tasks.
+    \item The documentation was sufficient for me to complete tasks without external help.
+    \item I feel confident that I could run the pipeline again on a different dataset.
+\end{enumerate}
 
-
-
-
-% \subsection{Usability Survey Questions?}
+Open-ended questions:
+\begin{enumerate}
+    \item What was the most difficult step in the workflow, and why?
+    \item Which part of the documentation should be improved first?
+    \item What feature or improvement would most increase your confidence in using this pipeline?
+\end{enumerate}
 
 
 
