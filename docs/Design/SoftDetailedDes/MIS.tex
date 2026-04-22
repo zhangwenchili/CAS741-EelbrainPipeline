@@ -384,11 +384,11 @@ None
 \hline
     \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-    \lstinline|_register_field| & field name, values, default value & None & \lstinline|ValueError| \\
-    \lstinline|get| & field name & current field value & None \\
-    \lstinline|set| & field name, value & None & \lstinline|ValueError| \\
-    \lstinline|iter| & field names & iterator & None \\
-    \lstinline|get_field_values| & field name & all field values & None \\
+    \lstinline|_register_field| & field name (string), values (sequence of strings), default value (string) & None & \lstinline|ValueError| \\
+    \lstinline|get| & field name (string) & current field value (string) & None \\
+    \lstinline|set| & field name (string), value (string) & None & \lstinline|ValueError| \\
+    \lstinline|iter| & field names (sequence of strings) & iterator & None \\
+    \lstinline|get_field_values| & field name (string) & all field values (sequence of strings) & None \\
 \hline
 \end{tabular}
 \end{center}
@@ -403,8 +403,8 @@ None
 
 
 \begin{itemize}
-    \item \lstinline|self._fields: dict| -- A dictionary of field names and their current values
-    \item \lstinline|self._field_values: dict| -- A dictionary of field names and their possible values
+    \item \lstinline|self._fields: dict| -- A dictionary of field names (string) and their current values (string)
+    \item \lstinline|self._field_values: dict| -- A dictionary of field names (string) and their possible values (sequence of strings)
 \end{itemize}
 
 
