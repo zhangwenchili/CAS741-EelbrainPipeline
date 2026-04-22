@@ -289,7 +289,7 @@ The following system-level test cases are derived from the functional requiremen
     Initial State: Eelbrain pipeline is initialized. \\
     Input:
         \begin{itemize}
-            \item MNE sample dataset containing multiple file paths;
+            \item \href{https://mne.tools/stable/documentation/datasets.html#sample}{MNE sample dataset} containing multiple file paths;
             \item Methods calls on pipeline to access file paths and load files.
         \end{itemize}
     Output: Eelbrain pipeline successfully loads all correct file paths or handles incorrect ones with informative errors. \\
@@ -331,12 +331,12 @@ The following system-level test cases are derived from the functional requiremen
     Initial State: Eelbrain pipeline is initialized. \\
     Input: 
         \begin{itemize}
-            \item A fake dataset with multiple subjects, sessions and tasks created by duplicating MNE sample dataset;
-            \item A minimal pipeline configuration file with BIDS entities omitted (e.g., subject/session/task).
+            \item A fake dataset with multiple subjects, sessions and tasks created by duplicating \href{https://mne.tools/stable/documentation/datasets.html#sample}{MNE sample dataset};
+            \item A minimal pipeline configuration file with BIDS entities omitted (e.g., subject/session/task). An example configuration file can be found \href{https://github.com/Eelbrain/Eelbrain/blob/main/examples/imagenet/imagenet.py}{here}.
         \end{itemize}
     Output: BIDS entities are properly inferred from the dataset. \\
     Test Case Derivation: From MNE sample data. \\
-    How test will be performed: Access pipeline attributes related to BIDS entities. Assertions will check that the set of correct BIDS entities and inferred values are identical.
+    How test will be performed: Access pipeline attributes related to BIDS entities. Assertions will check that inferred values are identical to the correct BIDS entities.
 
 
 \end{enumerate}
@@ -408,7 +408,7 @@ The following system-level test cases are derived from the functional requiremen
     Initial State: Eelbrain pipeline initialized and sensor-space processing completed. \\
     Input:
         \begin{itemize}
-            \item A valid BIDS dataset with Freesurfer MRI and trans files;
+            \item \href{https://mne.tools/stable/documentation/datasets.html#sample}{MNE sample dataset};
             \item Methods calls on pipeline to execute source-space analysis steps and load STC (source time course) data.
         \end{itemize}
     Output: The pipeline successfully computes source-space data with correct properties. \\
