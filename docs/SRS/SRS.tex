@@ -748,8 +748,8 @@ The goal GS~\ref{G_sensorSpace} is solved by IM~\ref{IM_sensorAggregate}. The go
 \hline
     Description &
     Raw MEG data $y(t)$ are used to estimate the noise covariance matrix, which defines a whitening operator applied to the data and the forward model. \\
-    & Structural MRI data are used to define the source space and to construct a geometrical head model, from which the linear forward operator $A$ is obtained. \\
-    & The whitened forward operator $\tilde{A}$ is combined with the regularization parameter $\lambda$ to define the inverse operator $W$ as the closed-form solution of a regularized linear inverse problem. \\
+    & Structural MRI data are used to define the source space and to construct a geometrical head model, from which the linear forward operator $A$ is computed by solving the electromagnetic forward problem, i.e.\ computing the electric or magnetic field at each sensor that would result from a unit dipole at each source location, given the head geometry and tissue conductivities. \\
+    & The whitened forward operator $\tilde{A}$ is obtained by applying the whitening operator derived from the noise covariance matrix to $A$. $\tilde{A}$ is then combined with the regularization parameter $\lambda$ to define the inverse operator $W$ as the closed-form solution of a regularized linear inverse problem. \\
     & This instance model specifies how raw data and modeling assumptions determine a fixed inverse operator, independent of its subsequent application to sensor-level data. \\
 \hline
     Sources & https://ui.adsabs.harvard.edu/abs/1993RvMP...65..413H/abstract \\
