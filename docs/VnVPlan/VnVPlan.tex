@@ -371,7 +371,7 @@ The following system-level test cases are derived from the functional requiremen
             \item Methods calls on pipeline to execute sensor-space analysis steps and load processed data.
         \end{itemize}
     Output: The pipeline successfully processes sensor-space data with correct dimensions. \\
-    Test Case Derivation: From MNE sample data. \\
+    Test Case Derivation: The MNE sample data provides the expected dimensions and properties of sensor-space data. \\
     How test will be performed: Assertions will check that
     \begin{itemize}
         \item The returned sensor-space data are in correct MNE-Python data structures (e.g., Epochs objects);
@@ -411,8 +411,8 @@ The following system-level test cases are derived from the functional requiremen
             \item \href{https://mne.tools/stable/documentation/datasets.html#sample}{MNE sample dataset};
             \item Methods calls on pipeline to execute source-space analysis steps and load STC (source time course) data.
         \end{itemize}
-    Output: The pipeline successfully computes source-space data with correct properties. \\
-    Test Case Derivation: From MNE sample data. \\
+    Output: The pipeline successfully computes source-space data with correct properties. The returned source-space data has a shape of 7498 vertices and 421 time points; its peak amplitude in right auditory cortex is 15--25 dSPM units. \\
+    Test Case Derivation: The MNE sample data provides the expected dimensions and properties of source-space data. \\
     How test will be performed: Run the source localization workflow. Assertions will check that 
     \begin{itemize}
         \item The returned source-space data is in an MNE-Python SourceEstimate object;
