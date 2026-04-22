@@ -678,6 +678,124 @@ This section collects and defines all the file types needed to build the instanc
 
 
 \subsubsection{Data Types}\label{sec_datatypes}
+\noindent
+\begin{minipage}{\textwidth}
+\renewcommand*{\arraystretch}{1.5}
+\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+  \hline
+  \rowcolor[gray]{0.9}
+  Type Name & BIDSDataset\\
+  \hline
+  Type Def & BIDSDataset = record of (dataset\_description: DatasetDescription, participants: optional~ParticipantsFile, subjects: set of SubjectDirectory)\\
+  \hline
+  Description & Basic abstraction of a raw BIDS dataset. A dataset must contain a top-level \texttt{dataset\_description.json}; it may also contain a \texttt{participants.tsv} file and one or more subject directories.\\
+  \hline
+  Sources & https://bids-specification.readthedocs.io/en/stable/\\
+  \hline
+\end{tabular}
+\end{minipage}\\
+
+\noindent
+\begin{minipage}{\textwidth}
+\renewcommand*{\arraystretch}{1.5}
+\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+  \hline
+  \rowcolor[gray]{0.9}
+  Type Name & DatasetDescription\\
+  \hline
+  Type Def & DatasetDescription = record of (Name: string, BIDSVersion: string, DatasetType: string)\\
+  \hline
+  Description & Top-level metadata of a BIDS dataset. In raw datasets, \texttt{Name} and \texttt{BIDSVersion} are required; \texttt{DatasetType} is recommended and defaults to \texttt{raw}.\\
+  \hline
+  Sources & https://bids-specification.readthedocs.io/en/stable/\\
+  \hline
+\end{tabular}
+\end{minipage}\\
+
+\noindent
+\begin{minipage}{\textwidth}
+\renewcommand*{\arraystretch}{1.5}
+\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+  \hline
+  \rowcolor[gray]{0.9}
+  Type Name & SubjectDirectory\\
+  \hline
+  Type Def & SubjectDirectory = record of (subject\_id: string, sessions: optional~set of SessionDirectory, datatypes: set of DataTypeDirectory)\\
+  \hline
+  Description & A subject is stored in a directory named \texttt{sub-<label>}. If the dataset contains multiple sessions, session subdirectories may appear under the subject directory.\\
+  \hline
+  Sources & https://bids-specification.readthedocs.io/en/stable/\\
+  \hline
+\end{tabular}
+\end{minipage}\\
+
+\noindent
+\begin{minipage}{\textwidth}
+\renewcommand*{\arraystretch}{1.5}
+\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+  \hline
+  \rowcolor[gray]{0.9}
+  Type Name & SessionDirectory\\
+  \hline
+  Type Def & SessionDirectory = record of (session\_id: string, datatypes: set of DataTypeDirectory)\\
+  \hline
+  Description & A session is stored in a directory named \texttt{ses-<label>} inside a subject directory. It is used when data for a subject were acquired across multiple sessions.\\
+  \hline
+  Sources & https://bids-specification.readthedocs.io/en/stable/\\
+  \hline
+\end{tabular}
+\end{minipage}\\
+
+\noindent
+\begin{minipage}{\textwidth}
+\renewcommand*{\arraystretch}{1.5}
+\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+  \hline
+  \rowcolor[gray]{0.9}
+  Type Name & ParticipantsFile\\
+  \hline
+  Type Def & ParticipantsFile = set of ParticipantRecord\\
+  \hline
+  Description & The recommended \texttt{participants.tsv} file at the dataset root. If present, it must contain a \texttt{participant\_id} column, and each participant must be described by exactly one row.\\
+  \hline
+  Sources & https://bids-specification.readthedocs.io/en/stable/\\
+  \hline
+\end{tabular}
+\end{minipage}\\
+
+\noindent
+\begin{minipage}{\textwidth}
+\renewcommand*{\arraystretch}{1.5}
+\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+  \hline
+  \rowcolor[gray]{0.9}
+  Type Name & ParticipantRecord\\
+  \hline
+  Type Def & ParticipantRecord = record of (participant\_id: string, age: optional~string, sex: optional~string, handedness: optional~string)\\
+  \hline
+  Description & One row in \texttt{participants.tsv}. The only required field is \texttt{participant\_id}; other fields such as age, sex, and handedness are commonly used optional columns.\\
+  \hline
+  Sources & https://bids-specification.readthedocs.io/en/stable/\\
+  \hline
+\end{tabular}
+\end{minipage}\\
+
+\noindent
+\begin{minipage}{\textwidth}
+\renewcommand*{\arraystretch}{1.5}
+\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+  \hline
+  \rowcolor[gray]{0.9}
+  Type Name & DataTypeDirectory\\
+  \hline
+  Type Def & DataTypeDirectory = one~of~\{anat, func, fmap, dwi, eeg, meg, ieeg, perf, pet, beh\}\\
+  \hline
+  Description & A subject or session directory contains one or more datatype directories, depending on the modality of the recorded data.\\
+  \hline
+  Sources & https://bids-specification.readthedocs.io/en/stable/\\
+  \hline
+\end{tabular}
+\end{minipage}\\
 
 
 
