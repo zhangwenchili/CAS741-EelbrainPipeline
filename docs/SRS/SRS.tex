@@ -827,7 +827,7 @@ uncertainty quantification exercise.
 
     $f_s$ &
     $f_s > 0$ &
-    $100 \leq f_s \leq 5000$ Hz &
+    $f_{s,\min} \leq f_s \leq f_{s,\max}$ &
     1000 Hz &
     0\% \\
 
@@ -839,7 +839,7 @@ uncertainty quantification exercise.
 
     ${\bf y}(t)$ &
     finite amplitude &
-    $|{\bf y}(t)| \leq 500~\si{\micro\volt}$ (EEG) &
+    $|{\bf y}(t)| \leq y_{\max}$ (EEG) &
     50~\si{\micro\volt} &
     10\% \\
 
@@ -1117,8 +1117,11 @@ Not applicable.
 
 \section{Values of Auxiliary Constants}
 
-
-\newpage
+\begin{itemize}
+    \item $f_{s,\min} = 100~\si{\hertz}$ — Minimum supported sampling frequency.
+    \item $f_{s,\max} = 5000~\si{\hertz}$ — Maximum supported sampling frequency.
+    \item $y_{\max} = 500~\si{\micro\volt}$ — Maximum allowed EEG signal amplitude.
+\end{itemize}
 
 
 
