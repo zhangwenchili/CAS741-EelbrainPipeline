@@ -16,128 +16,138 @@
 
 \maketitle
 
-\plt{Reflection is an important component of getting the full benefits from a
-learning experience.  Besides the intrinsic benefits of reflection, this
-document will be used to help the TAs grade how well your team responded to
-feedback.  Therefore, traceability between Revision 0 and Revision 1 is and
-important part of the reflection exercise.  In addition, several CEAB (Canadian
-Engineering Accreditation Board) Learning Outcomes (LOs) will be assessed based
-on your reflections.}
+This document summarizes how feedback from Revision 0 was addressed in Revision 1
+and reflects on key engineering decisions and outcomes. In addition to documenting
+traceability of changes, it records lessons learned across project design,
+verification, management, and professional practice outcomes.
 
 \section{Changes in Response to Feedback}
 
-\plt{Summarize the changes made over the course of the project in response to
-feedback from TAs, the instructor, teammates, other teams, the project
-supervisor (if present), and from user testers.}
-
-\plt{For those teams with an external supervisor, please highlight how the feedback 
-from the supervisor shaped your project.  In particular, you should highlight the 
-supervisor's response to your Rev 0 demonstration to them.}
-
-\plt{Version control can make the summary relatively easy, if you used issues
-and meaningful commits.  If you feedback is in an issue, and you responded in
-the issue tracker, you can point to the issue as part of explaining your
-changes.  If addressing the issue required changes to code or documentation, you
-can point to the specific commit that made the changes.  Although the links are
-helpful for the details, you should include a label for each item of feedback so
-that the reader has an idea of what each item is about without the need to click
-on everything to find out.}
-
-\plt{If you were not organized with your commits, traceability between feedback
-and commits will not be feasible to capture after the fact.  You will instead
-need to spend time writing down a summary of the changes made in response to
-each item of feedback.}
-
-\plt{You should address EVERY item of feedback.  A table or itemized list is
-recommended.  You should record every item of feedback, along with the source of
-that feedback and the change you made in response to that feedback.  The
-response can be a change to your documentation, code, or development process.
-The response can also be the reason why no changes were made in response to the
-feedback.  To make this information manageable, you will record the feedback and
-response separately for each deliverable in the sections that follow.}
-
-\plt{If the feedback is general or incomplete, the TA (or instructor) will not
-be able to grade your response to feedback.  In that case your grade on this
-document, and likely the Revision 1 versions of the other documents will be
-low.} 
+Across Revision 1, feedback from the instructor, peer reviewers. The mapping of feedback to actions is summarized in the GitHub issue tracker, we will provide links to the related issues.
 
 \subsection{SRS and Hazard Analysis}
+\begin{itemize}
+  \item \textbf{Instructor feedback:} The feedback was addressed by the instructor and peer reviewers. \href{https://github.com/zhangwenchili/CAS741-EelbrainPipeline/issues/23}{\#23}
+  \item \textbf{Peer reviewer feedback:} \href{https://github.com/zhangwenchili/CAS741-EelbrainPipeline/issues/4}{\#4}, \href{https://github.com/zhangwenchili/CAS741-EelbrainPipeline/issues/5}{\#5}, \href{https://github.com/zhangwenchili/CAS741-EelbrainPipeline/issues/6}{\#6}, \href{https://github.com/zhangwenchili/CAS741-EelbrainPipeline/issues/7}{\#7}, \href{https://github.com/zhangwenchili/CAS741-EelbrainPipeline/issues/8}{\#8}
+\end{itemize}
 
 \subsection{Design and Design Documentation}
 
+\begin{itemize}
+    \item \textbf{Instructor feedback:} The feedback was addressed by the instructor and peer reviewers. \href{https://github.com/zhangwenchili/CAS741-EelbrainPipeline/issues/25}{\#25}
+    \item \textbf{Peer reviewer feedback:} \href{https://github.com/zhangwenchili/CAS741-EelbrainPipeline/issues/14}{\#14}, \href{https://github.com/zhangwenchili/CAS741-EelbrainPipeline/issues/15}{\#15}, \href{https://github.com/zhangwenchili/CAS741-EelbrainPipeline/issues/16}{\#16}, \href{https://github.com/zhangwenchili/CAS741-EelbrainPipeline/issues/17}{\#17}, \href{https://github.com/zhangwenchili/CAS741-EelbrainPipeline/issues/19}{\#19}, \href{https://github.com/zhangwenchili/CAS741-EelbrainPipeline/issues/20}{\#20}, \href{https://github.com/zhangwenchili/CAS741-EelbrainPipeline/issues/21}{\#21}, \href{https://github.com/zhangwenchili/CAS741-EelbrainPipeline/issues/22}{\#22}
+  \end{itemize}
+
 \subsection{VnV Plan and Report}
+
+\begin{itemize}
+    \item \textbf{Instructor feedback:} The feedback was addressed by the instructor and peer reviewers. \href{https://github.com/zhangwenchili/CAS741-EelbrainPipeline/issues/24}{\#24}
+    \item \textbf{Peer reviewer feedback:} \href{https://github.com/zhangwenchili/CAS741-EelbrainPipeline/issues/9}{\#9}, \href{https://github.com/zhangwenchili/CAS741-EelbrainPipeline/issues/10}{\#10}, \href{https://github.com/zhangwenchili/CAS741-EelbrainPipeline/issues/11}{\#11}, \href{https://github.com/zhangwenchili/CAS741-EelbrainPipeline/issues/12}{\#12}, \href{https://github.com/zhangwenchili/CAS741-EelbrainPipeline/issues/13}{\#13}
+  \end{itemize}
 
 \section{Extras}
 
-\plt{Summarize the extras that were tackled by this project.  Extras
-can include usability testing, code walkthroughs, user documentation, formal
-proof, GenderMag personas, Design Thinking, etc.  Extras should have already
-been approved by the course instructor as included in your problem statement.}
+The extras set out intially (user manual and code walkthrough) are cancelled by the instructor.
 
 \section{Design Iteration (LO11 (PrototypeIterate))}
 
-\plt{Explain how you arrived at your final design and implementation.  How did
-the design evolve from the first version to the final version?} 
+The design evolved from a functionality-first prototype to a traceability-oriented
+engineering artifact set. Initially, the focus was enabling end-to-end M/EEG
+processing by wrapping MNE-Python workflows. After reviews, the design was iterated
+to make assumptions explicit, isolate likely changes behind module secrets, and
+enforce requirement-to-test traceability.
 
-\plt{Don't just say what you changed, say why you changed it.  The needs of the
-client should be part of the explanation.  For example, if you made changes in
-response to usability testing, explain what the testing found and what changes
-it led to.}
+The client need was rapid, repeatable analysis on BIDS datasets while keeping
+developer effort manageable for future changes (e.g., additional BIDS entities and
+preprocessing operations). This motivated the final decomposition where the pipeline
+interface (M1) orchestrates behavior-hiding modules (M2--M6), and external
+computation is delegated to MNE-Python (M7). The resulting design better supports
+both usability for researchers and maintainability for developers.
 
 \section{Design Decisions (LO12)}
 
-\plt{Reflect and justify your design decisions.  How did limitations,
- assumptions, and constraints influence your decisions?  Discuss each of these
- separately.}
+\textbf{Limitations.}
+Project scope and timeline limited full re-validation of external numerical
+algorithms. Therefore, the team treated MNE-Python as a trusted dependency and
+verified interface contracts and workflow integration rather than re-proving
+algorithm correctness.
+
+\textbf{Assumptions.}
+The SRS assumptions (dipole approximation, linear relationship, and statistical noise
+model) enabled concise instance models for inverse estimation. These assumptions
+guided requirements and constrained what the software promises to users.
+
+\textbf{Constraints.}
+The BIDS input constraint and optional FreeSurfer MRI support strongly shaped the
+architecture. BIDS compliance is checked/inferred early in the pipeline, and
+module responsibilities were separated to localize changes in path inference,
+preprocessing defaults, and covariance/source workflows.
 
 \section{Economic Considerations (LO23)}
 
-\plt{Is there a market for your product? What would be involved in marketing your 
-product? What is your estimate of the cost to produce a version that you could 
-sell?  What would you charge for your product?  How many units would you have to 
-sell to make money? If your product isn't something that would be sold, like an 
-open source project, how would you go about attracting users?  How many potential 
-users currently exist?}
+\progname{} is best positioned as an open-source research software component rather
+than a commercial product. The likely user base includes labs and students working
+with M/EEG data and already using MNE-Python/BIDS workflows.
+
+Instead of direct sales, value comes from adoption, reproducibility, and reduced
+analysis setup time. To attract users, the project should prioritize clear
+documentation, example workflows, and stable automated tests.
 
 \section{Reflection on Project Management (LO24)}
 
-\plt{This question focuses on processes and tools used for project management.}
+This section reflects on process and tooling choices used to deliver and revise the
+project artifacts.
 
 \subsection{How Does Your Project Management Compare to Your Development Plan}
 
-\plt{Did you follow your Development plan, with respect to the team meeting plan, 
-team communication plan, team member roles and workflow plan.  Did you use the 
-technology you planned on using?}
+The project broadly followed the intended plan: iterative document development,
+review-driven revisions, and issue-based tracking in the repository. Planned tooling
+(GitHub for version control/issues, checklist-guided reviews, and CI-oriented
+testing strategy) was used as expected. The main variance from the original plan was
+that more effort was needed for cross-document consistency and traceability updates
+after feedback.
 
 \subsection{What Went Well?}
 
-\plt{What went well for your project management in terms of processes and 
-technology?}
+\begin{itemize}
+  \item Checklist-based reviews gave concrete, actionable feedback.
+  \item Shared document templates improved consistency across SRS, MG, MIS, and VnV.
+  \item Early use of traceability matrices helped identify missing links quickly.
+  \item External supervisor/domain feedback improved realism of requirements and tests.
+\end{itemize}
 
 \subsection{What Went Wrong?}
 
-\plt{What went wrong in terms of processes and technology?}
+\begin{itemize}
+  \item Initial drafts optimized for progress speed, resulting in later rework for
+  traceability and measurable verification criteria.
+  \item Some requirement-test links were initially implicit rather than explicit.
+  \item Synchronizing updates across multiple documents was time-consuming and
+  increased the risk of inconsistency.
+\end{itemize}
 
 \subsection{What Would you Do Differently Next Time?}
 
-\plt{What will you do differently for your next project?}
+\begin{itemize}
+  \item Define traceability artifacts (requirement IDs, test IDs, module links) from
+  the first draft instead of retrofitting them later.
+  \item Schedule formal mini-walkthroughs earlier for high-risk sections
+  (requirements clarity and module boundaries).
+  \item Conduct periodic consistency checks across SRS/MG/MIS/VnV after each major edit.
+\end{itemize}
 
 \section{Ethics and Equity (LO18)}
 
-\plt{Describe how your team applied the principle of equity and universal design
-to ensure equitable treatment of all stakeholders.}
+The team emphasized equitable access by designing a scriptable and documented
+pipeline that can be used on common operating systems (Linux/macOS/Windows) with
+open tooling. Requirements and tests were written to prioritize reproducibility and
+transparent error reporting, reducing hidden barriers for new users.
 
-\section{Reflection on Capstone}
+From a research ethics perspective, the project does not create or alter participant
+data collection protocols; it operates on datasets prepared under existing domain
+standards. The documentation-first approach also supports fair onboarding for users
+with different prior experience levels.
 
-\plt{This question focuses on what you learned during the course of the capstone project.}
 
-\subsection{Which Courses Were Relevant}
-
-\plt{Which of the courses you have taken were relevant for the capstone project?}
-
-\subsection{Knowledge/Skills Outside of Courses}
-
-\plt{What skills/knowledge did you need to acquire for your capstone project
-that was outside of the courses you took?}
 
 \end{document}
