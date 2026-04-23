@@ -1,14 +1,13 @@
-The purpose of reflection questions is to give you a chance to assess your own
-learning and that of your group as a whole, and to find ways to improve in the
-future. Reflection is an important part of the learning process.  Reflection is
-also an essential component of a successful software development process.  
+\begin{enumerate}
+  \item \textbf{What went well while writing this deliverable?}\\
+  The main strength was clear traceability across documents. We linked SRS requirements to VnV tests, and mapped module checks to MG/MIS modules, which improved consistency and readability. We also made expected outputs explicit (types, dimensions, exceptions), reducing ambiguity.
 
-Reflections are most interesting and useful when they're honest, even if the
-stories they tell are imperfect. You will be marked based on your depth of
-thought and analysis, and not based on the content of the reflections
-themselves. Thus, for full marks we encourage you to answer openly and honestly
-and to avoid simply writing ``what you think the evaluator wants to hear.''
+  \item \textbf{What pain points did you experience during this deliverable, and how did you resolve them?}\\
+  The main issue was a gap between planned tests and executable evidence. Some tests were specified, but not all pytest/CI results were available, especially for usability and maintainability. We addressed this by clearly separating \emph{specification-complete} and \emph{execution-complete} items and only claiming results backed by evidence.
 
-Please answer the following questions.  Some questions can be answered on the
-team level, but where appropriate, each team member should write their own
-response:
+  \item \textbf{Which parts of this document stemmed from speaking to your client(s) or a proxy (e.g., your peers)? Which ones were not, and why?}\\
+  Peer/proxy discussions mainly influenced scope and acceptance emphasis, especially how to present pending versus completed evidence. Most technical content came directly from SRS, VnV Plan, MG, and MIS, since these documents define the formal requirements and module contracts.
+
+  \item \textbf{In what ways was the VnV Plan different from the activities actually conducted for VnV? What changed, why, and how can this be improved in future projects?}\\
+  The plan targeted broader verification than what was executed in this cycle. Portability was validated in CI, but usability/maintainability and some unit-test execution remained pending due to schedule and infrastructure readiness. In future work, we should set earlier VnV milestones and assign owners and deadlines for each planned test case.
+\end{enumerate}

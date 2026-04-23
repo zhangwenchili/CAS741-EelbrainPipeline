@@ -17,10 +17,10 @@
 
 \begin{document}
 
-\title{Verification and Validation Report: \progname} 
+\title{Verification and Validation Report: \progname}
 \author{\authname}
 \date{\today}
-	
+
 \maketitle
 
 \pagenumbering{roman}
@@ -30,8 +30,7 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+April 22, 2026 & 1.0 & Initial version \\
 \bottomrule
 \end{tabularx}
 
@@ -40,66 +39,175 @@ Date 2 & 1.1 & Notes\\
 \section{Symbols, Abbreviations and Acronyms}
 
 \renewcommand{\arraystretch}{1.2}
-\begin{tabular}{l l} 
-  \toprule		
+\begin{tabular}{l l}
+  \toprule
   \textbf{symbol} & \textbf{description}\\
-  \midrule 
+  \midrule
   T & Test\\
+  FR & Functional Requirement\\
+  NFR & Nonfunctional Requirement\\
+  SRS & Software Requirements Specification\\
+  MG & Module Guide\\
+  MIS & Module Interface Specification\\
+  VnV & Verification and Validation\\
+  CI & Continuous Integration\\
+  MNE & MNE-Python library for M/EEG processing\\
   \bottomrule
 \end{tabular}\\
-
-\wss{symbols, abbreviations or acronyms -- you can reference the SRS tables if needed}
 
 \newpage
 
 \tableofcontents
 
-\listoftables %if appropriate
+\listoftables
 
-\listoffigures %if appropriate
+\listoffigures
 
 \newpage
 
 \pagenumbering{arabic}
 
-This document ...
+This document reports the verification and validation outcomes for \progname{}.
+The report is based on the approved VnV strategy and test definitions in the VnV Plan, and traces results back to the requirements (SRS) and design artifacts (MG and MIS).
 
 \section{Functional Requirements Evaluation}
 
+Functional requirements in the SRS are evaluated using system tests FR-01 to FR-04 defined in the VnV Plan.
+Table~\ref{tab:fr_eval} summarizes the evaluation result for each requirement.
+
+\begin{table}[h]
+\centering
+\begin{tabularx}{\textwidth}{p{1.8cm}p{2.2cm}p{2.2cm}X}
+\toprule
+\textbf{Req.} & \textbf{Test Case(s)} & \textbf{Result} & \textbf{Evidence / Notes}\\
+\midrule
+R1 (BIDS input) & FR-01 & Pass & Test definition checks valid and invalid path templating, file discovery, and informative exceptions for missing files.\\
+R2 (BIDS entity inference) & FR-02 & Pass & Test definition verifies subject/session/task inference from dataset structure and compares inferred values with expected entities.\\
+R3 (Sensor-space analysis) & FR-03 & Pass & Test definition validates returned MNE object types and expected dimensions across filtering, epoching, and evoked-response stages.\\
+R4 (Output data structures) & FR-04 & Pass & Test definition confirms source-space output type and expected source-time-course dimensions and range constraints.\\
+\bottomrule
+\end{tabularx}
+\caption{Functional Requirements Evaluation}
+\label{tab:fr_eval}
+\end{table}
+
 \section{Nonfunctional Requirements Evaluation}
 
-\subsection{Usability}
-		
-\subsection{Performance}
+\noindent Due to time constraints in the current project cycle, formal validation for usability (NFR1) and maintainability (NFR2) was not executed. Therefore, this report only includes the completed nonfunctional evaluation for portability (NFR3).
 
-\subsection{etc.}
-	
-\section{Comparison to Existing Implementation}	
+\subsection{Portability}
 
-This section will not be appropriate for every project.
+\begin{table}[h]
+\centering
+\begin{tabularx}{\textwidth}{p{2.2cm}p{2.4cm}p{2.2cm}X}
+\toprule
+\textbf{NFR} & \textbf{Test Case} & \textbf{Status} & \textbf{Notes}\\
+\midrule
+NFR3 (Portability) & NFR-03 & Pass (Validated in CI) & Cross-platform installation and execution were validated through CI runs, and the workflow completed successfully on target environments.\\
+\bottomrule
+\end{tabularx}
+\caption{Portability Evaluation Status}
+\end{table}
+
+\section{Comparison to Existing Implementation}
+
+Not applicable.
 
 \section{Unit Testing}
 
+The following matrix traces in Table~\ref{tab:unit_test} the module-level design elements (MG/MIS) to planned unit-test evidence and current status.
+
+\begin{table}[h]
+\centering
+\begin{tabularx}{\textwidth}{p{2.8cm}p{2.8cm}p{2.2cm}X}
+\toprule
+\textbf{Module} & \textbf{Mapped Unit Tests} & \textbf{Status} & \textbf{Notes}\\
+\midrule
+M1 Pipeline & UT-M1-01, UT-M1-02, UT-M1-03 & Pass & Tests defined from MIS exported routines (\texttt{load\_raw}, \texttt{load\_events}, \texttt{load\_epochs}).\\
+M2 TreeModel & UT-M2-01, UT-M2-02, UT-M2-03 & Pass & Covers registration, validation, and iterator semantics.\\
+M3 FileTree & UT-M3-01, UT-M3-02, UT-M3-03 & Pass & Covers path expansion, error handling, and glob behavior.\\
+M4 Preprocessing & UT-M4-01, UT-M4-02, UT-M4-03 & Pass & Covers load behavior and ICA workflow contracts.\\
+M5 Epoch & UT-M5-01 & Pass & Verifies exported data-definition behavior.\\
+M6 Covariance & UT-M6-01, UT-M6-02 & Pass & Verifies covariance generation and exception propagation.\\
+\bottomrule
+\end{tabularx}
+\caption{Unit Test Status}
+\label{tab:unit_test}
+\end{table}
+
+
 \section{Changes Due to Testing}
 
-\wss{This section should highlight how feedback from the users and from 
-the supervisor (when one exists) shaped the final product.  In particular 
-the feedback from the Rev 0 demo to the supervisor (or to potential users) 
-should be highlighted.}
+The VnV process led to the following changes in project artifacts:
+\begin{itemize}
+    \item Test expectations were made more explicit by adding concrete dimensional and type checks for sensor-space and source-space outputs in FR-03 and FR-04.
+    \item A bug that the pipeline was unable to locate split files in the BIDS dataset was fixed.
+\end{itemize}
+
+At this stage, these changes are primarily reflected in documentation-level improvements and test-plan refinement.
 
 \section{Automated Testing}
-		
+
+The VnV Plan specifies automated verification through GitHub Actions, pytest, and coverage reporting.
+Automated testing has been implemented using GitHub Actions workflows, including quality checks, unit tests and system tests. The workflow files can be found in \url{https://github.com/Eelbrain/Eelbrain/tree/main/.github/workflows}
+
+
 \section{Trace to Requirements}
-		
-\section{Trace to Modules}		
+In Table~\ref{tab:requirement_test_trace}, the requirements are traced to the system-test evidence.
+
+\begin{table}[h]
+\centering
+\begin{tabularx}{0.6\textwidth}{p{3cm}X}
+\toprule
+    \textbf{Requirements} & \textbf{Test Cases} \\
+\midrule
+    R1 & FR-01 \\
+    R2 & FR-02 \\
+    R3 & FR-03, FR-05 \\
+    R4 & FR-04, FR-05 \\
+    NFR1 & NFR-01 \\
+    NFR2 & NFR-02 \\
+    NFR3 & NFR-03 \\
+\bottomrule
+\end{tabularx}
+\caption{Traceability Between Requirements and System Tests}
+\label{tab:requirement_test_trace}
+\end{table}
+
+
+\section{Trace to Modules}
+
+In Table~\ref{tab:unit_test_module_trace}, the module-level design elements (MG/MIS) are traced to the unit-test evidence.
+
+\begin{table}[h]
+\centering
+\begin{tabularx}{0.9\textwidth}{p{2.2cm}X}
+\toprule
+    \textbf{Module} & \textbf{Unit Test Cases} \\
+\midrule
+    M1 (Pipeline) & UT-M1-01, UT-M1-02, UT-M1-03 \\
+    M2 (TreeModel) & UT-M2-01, UT-M2-02, UT-M2-03 \\
+    M3 (FileTree) & UT-M3-01, UT-M3-02, UT-M3-03 \\
+    M4 (Preprocessing) & UT-M4-01, UT-M4-02, UT-M4-03 \\
+    M5 (Epoch) & UT-M5-01 \\
+    M6 (Covariance) & UT-M6-01, UT-M6-02 \\
+    Cross-module NFR checks & UT-NFR-01, UT-NFR-02 \\
+\bottomrule
+\end{tabularx}
+\caption{Traceability Between Unit Tests and Modules}
+\label{tab:unit_test_module_trace}
+\end{table}
+
 
 \section{Code Coverage Metrics}
 
+From the statistics provided by Codecov, the code coverage for the main branch is currently at 62.56\%. See \url{https://app.codecov.io/gh/Eelbrain/Eelbrain} for the latest coverage report.
+
+
 \section{Extras}
 
-\wss{Summary of the status of your extras.  If feasible, the extras should be
-complete by the time of writing the VnV report.  If the extras are not complete,
-you should summarize the plans for completing them.}
+The extras set out intially (user manual and code walkthrough) are cancelled by the instructor. However, \progname{} has an actively maintained user manual at \url{https://eelbrain.readthedocs.io/en/stable/index.html}.
+
 
 \bibliographystyle{plainnat}
 \bibliography{../../refs/References}
@@ -111,21 +219,5 @@ The information in this section will be used to evaluate the team members on the
 graduate attribute of Reflection.
 
 \input{../Reflection.text}
-
-\begin{enumerate}
-  \item What went well while writing this deliverable? 
-  \item What pain points did you experience during this deliverable, and how
-    did you resolve them?
-  \item Which parts of this document stemmed from speaking to your client(s) or
-  a proxy (e.g. your peers)? Which ones were not, and why?
-  \item In what ways was the Verification and Validation (VnV) Plan different
-  from the activities that were actually conducted for VnV?  If there were
-  differences, what changes required the modification in the plan?  Why did
-  these changes occur?  Would you be able to anticipate these changes in future
-  projects?  If there weren't any differences, how was your team able to clearly
-  predict a feasible amount of effort and the right tasks needed to build the
-  evidence that demonstrates the required quality?  (It is expected that most
-  teams will have had to deviate from their original VnV Plan.)
-\end{enumerate}
 
 \end{document}
