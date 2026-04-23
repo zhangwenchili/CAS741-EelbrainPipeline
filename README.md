@@ -1,10 +1,10 @@
-# Project Name
+# Eelbrain Pipeline
 
 Developer Names: Christian Brodbeck, Zhangwenchi Li
 
 Date of project start: Feb 27, 2012
 
-This project is Eelbrain pipeline, a Python library to automate the typical M/EEG workflow.
+This project is Eelbrain pipeline, a Python library to automate the typical M/EEG workflow. For more details about usage and contributing, check [the original repo](https://github.com/Eelbrain/Eelbrain).
 
 The folders and files for this project are as follows:
 

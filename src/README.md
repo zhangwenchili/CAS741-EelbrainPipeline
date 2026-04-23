@@ -1,5 +1,3 @@
 # Project Name Source Code
 
-The folders and files for this project are as follows:
-
-...
+The major part of my code contribution is in https://github.com/Eelbrain/Eelbrain/pull/152, plus some other bug fixes and enhancement PRs.
